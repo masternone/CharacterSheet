@@ -1,17 +1,20 @@
 options = typeof( options ) == 'object' ? options : {};
 options.attribute = typeof( options.attribute ) == 'object' ? options.attribute : {};
 // Fill in the final column
-options.attribute.finalize = function( name ){
-	if( $( '.' + name + '.score > input' ).val() * 1 > 0 && $( '.' + name + '.score > input' ).val() * 1 <= options.attribute.data.cost.length ){
-		var raceAdj       = $( '.' + name + '.race > input' ).checked       ? $( '.' + name + '.race > input' ).val() * 1       : 0,
-			backgroundAdj = $( '.' + name + '.background > input' ).checked ? $( '.' + name + '.background > input' ).val() * 1 : 0;
-		$( '.' + name ).removeClass( 'error' );
-		$( '.' + name + '.final' ).html( $( '.' + name + '.score > input' ).val() * 1 + raceAdj + backgroundAdj );
-		$( '.' + name + '.die' ).html( options.attribute.data.die[$( '.' + name + '.final' ).text() * 1 - 1] );
-		$( '.' + name + '.passive' ).html( options.attribute.data.passive[$( '.' + name + '.final' ).text() * 1 - 1] );
-	} else {
-		$( '.' + name ).addClass( 'error' );
-	}
+options.attribute.finalize = function( table ){
+	$.each( options.attribute.data.name, function(){
+		var name = this[1];
+		if( $( table + ' .' + name + '.score > input' ).val() * 1 > 0 && $( table + ' .' + name + '.score > input' ).val() * 1 <= options.attribute.data.cost.length ){
+			var raceAdj       = $( table + ' .' + name + '.race > input' ).checked       ? $( table + ' .' + name + '.race > input' ).val() * 1       : 0,
+				backgroundAdj = $( table + ' .' + name + '.background > input' ).checked ? $( table + ' .' + name + '.background > input' ).val() * 1 : 0;
+			$( table + ' .' + name ).removeClass( 'error' );
+			$( table + ' .' + name + '.final' ).html( $( table + ' .' + name + '.score > input' ).val() * 1 + raceAdj + backgroundAdj );
+			$( table + ' .' + name + '.die' ).html( options.attribute.data.die[$( table + ' .' + name + '.final' ).text() * 1 - 1] );
+			$( table + ' .' + name + '.passive' ).html( options.attribute.data.passive[$( table + ' .' + name + '.final' ).text() * 1 - 1] );
+		} else {
+			$( table + ' .' + name ).addClass( 'error' );
+		}
+	})
 }
 // Update the total spent
 options.attribute.total = function(){
@@ -31,7 +34,7 @@ options.attribute.change = function( $this ){
 	$( '.' + result[0] + '.cost' ).html( options.attribute.data.cost[ $this.val() * 1 - 1] );
 	if( options ){
 		if( options.attribute ){
-			if( options.attribute.finalize && typeof( options.attribute.finalize ) == 'function' ){ options.attribute.finalize( result[0] ); }
+			if( options.attribute.finalize && typeof( options.attribute.finalize ) == 'function' ){ options.attribute.finalize( 'table#attribute' ); }
 			if( options.attribute.total && typeof( options.attribute.total ) == 'function' ){ options.attribute.total(); }
 		} 
 		if( options.derived ){
