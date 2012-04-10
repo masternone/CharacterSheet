@@ -1,0 +1,49 @@
+The Arcanis Character Sheet is a Node.js project. Using Node.js allows for easier set up and you do not need to follow complated instrunction for setting up a web server; as the piramary developer of this project is primarly a webdeveloper the chooice of using a web browser and JavaScript allows him to use the tools he knows.
+
+To install Node.js follow the instrunction on http://nodejs.org/
+
+To install the dependencies which there is one. For basic installation use npm ( node's package manager )
+
+npm install
+
+this will read all the dependencies from package.JSON and install them.
+
+to start the server
+
+$ node ./server/start 8888
+
+to view the results
+
+http://localhost:8888
+
+to send coments please email Edward Grant at themasternone@gmail.com with the subject "Character Sheet"
+
+TODO:
+Break up app.js so each segment has its own file and try to refactor to make the code more reuseable.
+Loading from a file
+Selecting of Talents
+	Spells
+		Advanced spells
+	Weapon Tricks
+	Martial Techniques
+		Advanced Martial Techniques
+Selecting Equipment
+	Calculating bulk
+
+04/09/2012:
+	version 0.2.1
+	Added a package.JSON file to better maintain the dependencies.
+	Updated the readme with diffrent install instrunction to take advantage of the package.JSON
+	Allowed the server to listen to a user defined port
+
+
+04/06/2012:
+	version 0.2.0
+	Did some refactoring of the code. Created a util folder where all functions that are not specfic to a given data type will be put. The goal here is to only have data processing in the data's function file and all other functions put in the util's function file to promote reusability.
+
+03/30/2012:
+	version 0.1.1
+	Saving to a file
+		All the currently supported items are serialized and saved to a file. As new items are added they will have to provide methods on how to save the data selected with them.
+	Loading from a file
+		The file io is complet but there is no processing of the file.
