@@ -1,3 +1,11 @@
 # Saved Characters #
 ####################
 saveCharacter/
+
+# Data Files I do not have premission to destribute the data #
+##############################################################
+data/
+
+# Node Modules #
+################
+node_modules/
