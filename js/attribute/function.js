@@ -25,12 +25,6 @@ options.attribute.total = function(){
 		$( '.total.numbers' ).removeClass( 'error' );
 	}
 }
-// function to allow the user to choose an attribute to asign a bonus to
-options.attribute.set = function( column ){
-	$.each( options[column + 'Selected'].attribute, function(){
-		
-	}};
-}
 // function to be run on attribute change
 options.attribute.change = function( $this ){
 	var result = /^\w*/.exec( $this.parent().attr( 'class' ));
@@ -61,3 +55,10 @@ options.attribute.init = function(){
 	}
 }
 options.attribute.init();
+// function to allow the user to choose an attribute to asign a bonus to
+options.attribute.set = function( source, column ){
+	console.log( source );
+	options[column + 'Groups'] = source.attribute;
+	console.log( options[column + 'Groups'] );
+	options.utill.groupSelect( 'attribute', column );
+}

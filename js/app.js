@@ -54,13 +54,14 @@ $(document).ready(function() {
 		if( selected == "error" ){
 			options[source + 'Selected'] = "error";
 		} else {
-			console.log( 'source', source );
+			// console.log( 'source', source );
 			if( options[source] && options[source].data ){
 				$( options[source].data ).each( function(){
+					// console.log( 'before calling set function', this );
 					if( this.name == selected ){
 						options[source + 'Selected'] = this;
 						//Attributes
-						if( options[source + 'Selected'].attribute && options[source + 'Selected'].attribute.length > 0 ) options.attribute.set( source );
+						if( options[source + 'Selected'].attribute && options[source + 'Selected'].attribute.length > 0 ) options.attribute.set( this, source );
 						//Skill
 						if( options[source + 'Selected'].skill && options[source + 'Selected'].skill.length > 0 ) options.skill.set( source );
 						//talents

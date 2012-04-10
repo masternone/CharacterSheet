@@ -101,3 +101,53 @@ options.utill.linkedSelectBuild = function( main, link ){
 	$( '.' + link + ' > select' ).append( '<option val="error">-select a ' + main + '-</option>' );
 	//TODO: when main changes add data to link
 }
+options.utill.groupSelect = function( table, column ){
+	console.log( 'table', table );
+	console.log( 'column', column );
+	if( options[column + 'Groups'] && options[column + 'Groups'].length > 0 ){
+		var currentGroup = options[column + 'Groups'].shift(),
+			cleanName = '';
+		//build modal
+		$( 'body' ).append( '<div class=offClick></div>' );
+		$( 'body' ).append( '<div id=groupSelectModal></div>' );
+		//Title with countdown
+		$( 'div#groupSelectModal' ).append( '<h1>Select ' + column + ' ' + ( options[column + 'Groups'].length + 1 ) + '</h1>' );
+		$( 'div#groupSelectModal' ).append( '<div class=jScrollPane></div>' );
+		$( 'div.jScrollPane' ).append( '<table id=groupSelect border=1 cellspacing=0 cellpadding=1></table>' );
+		$( 'table#' + column + ' thead' ).clone().appendTo( 'table#groupSelect' );
+		console.log( currentGroup );
+		$.each( currentGroup, function( key, value ){
+			console.log( key, value );
+			console.log( this );
+			cleanName = value.name.replace( /[\s()\&]/g, '' );
+			//Only allow one to choos a skill if they have not chosen that skill for the current source
+			if( !$( 'table#' + column + ' .' + source + '.' + cleanName + ' > input' ).prop( 'checked' )){
+				$( 'table#' + column + ' tr.' + cleanName ).clone().removeClass( 'even odd' ).addClass( $( 'table#groupSelect tr' ).length % 2 == 0 ? 'even' : 'odd' ).appendTo( 'table#groupSelect' );
+			}
+		});
+		//allow the user to see how things will change depending on what they are choosing
+		$( 'table#groupSelect .' + source + ' input' ).prop( 'type', 'radio' ).prop( 'name', 'groupSelect' ).prop( 'disabled', false );
+		$( 'table#groupSelect .' + source + ' input' ).click( function(){ options.skill.finalize( 'table#groupSelect' ); });
+		if( options.skillGroups.length > 0 ){
+			$( 'div#groupSelectModal' ).append( '<div id=done>Next &raquo;</div>' );
+		} else {
+			$( 'div#groupSelectModal' ).append( '<div id=done>Done</div>' );
+		}
+		$( 'div#groupSelectModal  div#done' ).click( function(){
+			//update the main skill table if a skill is selected else do nothing
+			if( $( 'table#groupSelect .' + source + ' > input:checked' ).length > 0 ){
+				$( 'table#' + column + ' .' + $( 'table#groupSelect .' + source + ' > input:checked' ).parent().prop( 'class' ).replace( /\s/, '.' ) + ' input' ).prop( 'checked', true );
+				$( 'body div.offClick, body div#groupSelectModal' ).remove();
+				options.skill.groupSelect( source );
+				options.skill.finalize( 'table#' + column + '' );
+			}
+		});
+		//center the modal on the screen
+		$( 'div#groupSelectModal' ).css({
+			left : ( $( window ).width()  - $( 'div#groupSelectModal' ).outerWidth( true )) / 2,
+			top  : ( $( window ).height() - $( 'div#groupSelectModal' ).outerHeight( true )) / 2
+		});
+		//enable the scrolling
+		$( 'div.jScrollPane' ).jScrollPane({ verticalDragMinHeight: 27, verticalDragMaxHeight: 27, verticalGutter: 10 });
+	}
+}
