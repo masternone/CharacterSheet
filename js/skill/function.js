@@ -8,6 +8,7 @@ options.skill.spend = function(){
 // else error
 }
 options.skill.groupSelect = function( source ){
+	return false;
 	if( options.skillGroups.length > 0 ){
 		var currentSkillGroup = options.skillGroups.shift(),
 			cleanName = '';

@@ -60,8 +60,12 @@ options.attribute.init = function(){
 options.attribute.init();
 // function to allow the user to choose an attribute to asign a bonus to
 options.attribute.set = function( source, column ){
-	console.log( source );
+	// attribute reset
+	$( 'table#attribute .' + column + ' input' ).each( function(){
+		$( this ).val( 1 ).prop( "checked", false );
+	});
+	// console.log( source );
 	options[column + 'Groups'] = source.attribute;
-	console.log( options[column + 'Groups'] );
+	// console.log( options[column + 'Groups'] );
 	options.utill.groupSelect( 'attribute', column );
 }

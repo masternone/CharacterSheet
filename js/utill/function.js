@@ -105,25 +105,38 @@ options.utill.groupSelect = function( table, column ){
 	// console.log( 'table', table );
 	// console.log( 'column', column );
 	if( options[column + 'Groups'] && options[column + 'Groups'].length > 0 ){
-		var currentGroup = options[column + 'Groups'].shift(),
+		var currentGroup,
 			cleanName = '';
+		if( typeof( options[column + 'Groups'][0] ) == 'string' ){
+			//attribute selection is given an array of strings and one can only choose one
+			currentGroup = options[column + 'Groups'];
+		} else {
+			currentGroup = options[column + 'Groups'].shift();
+		}
+		// console.log( 'currentGroup', currentGroup );
 		//build modal
 		$( 'body' ).append( '<div class=offClick></div>' );
 		$( 'body' ).append( '<div id=groupSelectModal></div>' );
 		//Title with countdown
 		$( 'div#groupSelectModal' ).append( '<h1>Select ' + column + ' ' + ( options[column + 'Groups'].length + 1 ) + '</h1>' );
 		$( 'div#groupSelectModal' ).append( '<div class=jScrollPane></div>' );
-		$( 'div.jScrollPane' ).append( '<table id=groupSelect border=1 cellspacing=0 cellpadding=1></table>' );
-		$( 'table#' + column + ' thead' ).clone().appendTo( 'table#groupSelect' );
+		$( 'div.jScrollPane' ).append( '<table id=groupSelect class=' + column + ' border=1 cellspacing=0 cellpadding=1></table>' );
+		console.log( "$( 'table#'" + table + "' thead' )", $( 'table#' + table + ' thead' ));
+		$( 'table#' + table + ' thead' ).clone().appendTo( 'table#groupSelect' );
 		// console.log( currentGroup );
-		if( typeof( currentGroup == 'string' )){
-			cleanName = currentGroup.replace( /[\s()\&]/g, '' );
+		if( typeof( currentGroup[0] == 'string' )){
+			while( currentGroup.length > 0 ){
+				cleanName = currentGroup.shift().replace( /[\s()\&]/g, '' );
+				if( !$( 'table#' + table + ' .' + column + '.' + cleanName + ' > input' ).prop( 'checked' )){
+					$( 'table#' + table + ' tr.' + cleanName ).clone().removeClass( 'even odd' ).addClass( $( 'table#groupSelect tr' ).length % 2 == 0 ? 'even' : 'odd' ).appendTo( 'table#groupSelect' );
+				}
+			}
 		} else {
 			$.each( currentGroup, function( key, value ){
 				console.log( key, value );
 				console.log( this );
 				cleanName = value.name.replace( /[\s()\&]/g, '' );
-				//Only allow one to choos a skill if they have not chosen that skill for the current source
+				// Only allow one to choos an option if they have not chosen that skill for the current source
 				if( !$( 'table#' + column + ' .' + source + '.' + cleanName + ' > input' ).prop( 'checked' )){
 					$( 'table#' + column + ' tr.' + cleanName ).clone().removeClass( 'even odd' ).addClass( $( 'table#groupSelect tr' ).length % 2 == 0 ? 'even' : 'odd' ).appendTo( 'table#groupSelect' );
 				}

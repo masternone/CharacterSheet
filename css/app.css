@@ -63,41 +63,41 @@ tr.derived{
 	text-align: center;
 	text-transform: capitalize;
 }
-table#skill, table#skillGroupSelect{
+table#skill, table#groupSelect.skill{
 	font-size: .625em;
 	height: 1.6667em;
 	line-height: 1.25em;
 	text-align: center;
 	text-transform: capitalize;
 }
-table#skill .name, table#skillGroupSelect .name{
+table#skill .name, table#groupSelect.skill .name{
 	text-align: right;
 }
-div#skillGroupSelectModal{
+div#groupSelectModal div.jScrollPane div.jspDrag{
+	background: transparent url( '../images/scrrollbarScrubber.jpg') left top no-repeat;
+}
+div#groupSelectModal div#done{
+	cursor: pointer;
+	float: right;
+	border: .0625em solid black;
+	margin: .625em 0 0;
+	padding: 5px;
+}
+div#groupSelectModal{
 	background-color: white;
 	border: .125em solid black;
 	padding: .625em;
 	position: fixed;
 	z-index: 100;
 }
-div#skillGroupSelectModal div.jScrollPane{
+div#groupSelectModal div.jScrollPane{
 	max-height: 20em;
 }
-div#skillGroupSelectModal div.jScrollPane div.jspVerticalBar{
+div#groupSelectModal div.jScrollPane div.jspVerticalBar{
 	background: #DDE;
 	padding: 0 0 0 .3125em;
 }
-div#skillGroupSelectModal div.jScrollPane div.jspVerticalBar div.jspTrack{
+div#groupSelectModal div.jScrollPane div.jspVerticalBar div.jspTrack{
 	background: none;
 	width: 1.25em;
-}
-div#skillGroupSelectModal div.jScrollPane div.jspDrag{
-	background: transparent url( '../images/scrrollbarScrubber.jpg') left top no-repeat;
-}
-div#skillGroupSelectModal div#done{
-	cursor: pointer;
-	float: right;
-	border: .0625em solid black;
-	margin: .625em 0 0;
-	padding: 5px;
 }
