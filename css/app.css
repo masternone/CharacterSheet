@@ -1,0 +1,103 @@
+html, body{
+	margin: 0;
+	padding: 0;
+	font-family: "Maven Pro",Helvetica,Arial;
+	font-size: 100%;
+	line-height: 1.25em;
+}
+
+h1{
+	font-size: 1.5em;
+	font-weight: 700;
+	height: 1.25em;
+	line-height: 1.25em;
+	margin: .625em 0;
+}
+
+.error{
+	border-color: #f00;
+}
+
+.odd{
+	background-color: #9DF;
+}
+
+div.offClick{
+	background-color: black;
+	height: 100%;
+	left: 0;
+	position: fixed;
+	width:100%;
+	top: 0;
+	z-index: 50;
+}
+.opacity div.offClick{
+	opacity: .25;
+}
+.no-opacity div.offClick{
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha"(Opacity=25);
+	filter: progid:DXImageTransform.Microsoft.Alpha(opacity=25);
+}
+td{
+	width: auto;
+}
+td.save{
+	text-align: center;
+}
+
+table#attribute, table#derived, table#skills{
+	float: left;
+}
+tr.numbers{
+	font-size: 1.5em;
+	font-weight: 700;
+	height: 1.4583em;
+	line-height: 1.25em;
+	text-align: center;
+	text-transform: uppercase;
+}
+tr.derived{
+	font-size: .75em;
+	height: 1.6667em;
+	line-height: 1.25em;
+	text-align: center;
+	text-transform: capitalize;
+}
+table#skill, table#skillGroupSelect{
+	font-size: .625em;
+	height: 1.6667em;
+	line-height: 1.25em;
+	text-align: center;
+	text-transform: capitalize;
+}
+table#skill .name, table#skillGroupSelect .name{
+	text-align: right;
+}
+div#skillGroupSelectModal{
+	background-color: white;
+	border: .125em solid black;
+	padding: .625em;
+	position: fixed;
+	z-index: 100;
+}
+div#skillGroupSelectModal div.jScrollPane{
+	max-height: 20em;
+}
+div#skillGroupSelectModal div.jScrollPane div.jspVerticalBar{
+	background: #DDE;
+	padding: 0 0 0 .3125em;
+}
+div#skillGroupSelectModal div.jScrollPane div.jspVerticalBar div.jspTrack{
+	background: none;
+	width: 1.25em;
+}
+div#skillGroupSelectModal div.jScrollPane div.jspDrag{
+	background: transparent url( '../images/scrrollbarScrubber.jpg') left top no-repeat;
+}
+div#skillGroupSelectModal div#done{
+	cursor: pointer;
+	float: right;
+	border: .0625em solid black;
+	margin: .625em 0 0;
+	padding: 5px;
+}

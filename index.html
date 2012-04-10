@@ -1,0 +1,68 @@
+<!DOCTYPE HTML>
+<HTML>
+	<HEAD>
+		<title>Character Sheet</title>
+		<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Maven+Pro:400,700">
+		<link rel="stylesheet" type="text/css" href="css/jquery.jscrollpane.css" media="screen"/>
+		<link rel="stylesheet" type="text/css" href="css/app.css" media="all"/>
+		<link rel="stylesheet" type="text/css" href="css/print.css" media="print"/>
+		<script type="text/javascript" src="js/head.js"></script>
+		<script type="text/javascript">
+			head.js({ jQuery : 'https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js' })
+			head.ready( 'jQuery', function(){
+				head.js(
+					{ mousewheel  : 'js/jquery.mousewheel.min.js' },
+					{ jscrollpane : 'js/jquery.jscrollpane.min.js' },
+					{ mainApp     : 'js/app.js' },
+					{ utillFuncts : 'js/utill/function.js' }
+				);
+			});
+		</script>
+	</HEAD>
+	<body>
+		<table id="selections" border="1" cellspacing="0" cellpadding="1">
+			<tr class="even">
+				<td class="name">Name</td>
+				<td class="name">
+					<input type="text" />
+				</td>
+				<td class="race">Race</td>
+				<td class="race">
+					<select>
+					</select>
+				</td>
+				<td class="nation">Nation</td>
+				<td class="nation">
+					<select>
+					</select>
+				</td>
+				<td class="region">Region</td>
+				<td class="region">
+					<select>
+					</select>
+				</td>
+			</tr>
+			<tr class="odd">
+				<td class="archetype">Archetype</td>
+				<td class="archetype">
+					<select>
+					</select>
+				</td>
+				<td class="background">Background</td>
+				<td class="background">
+					<select>
+					</select>
+				</td>
+				<td class="religion">Religion</td>
+				<td class="religion">
+					<select>
+					</select>
+				</td>
+				<td class="save" colspan="2">
+					<input type="button" name="load" value="load" />
+					<input type="button" name="save" value="save" />
+				</td>
+			</tr>
+		</table>
+	</body>
+</HTML>

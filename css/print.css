@@ -1,0 +1,11 @@
+table#attribute .cost,
+table#attribute .score,
+table#attribute .race,
+table#attribute .background,
+table#attribute .fill,
+table#attribute .total,
+table#derived .base,
+table#derived .race,
+table#derived .other{
+	display: none;
+}
