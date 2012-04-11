@@ -44,8 +44,13 @@ td{
 td.save{
 	text-align: center;
 }
-
-table#attribute, table#derived, table#skills{
+div#wrapper{
+	width: 50em;
+}
+table#attribute, table#derived{
+	width: 25em;
+}
+table#attribute, table#derived, table#skills, table#language{
 	float: left;
 }
 tr.numbers{

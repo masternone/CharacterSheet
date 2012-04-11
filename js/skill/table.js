@@ -31,7 +31,7 @@ options.skill.table = function(){
 		"</head>"
 	);
 	$( options.skill.data ).each( function( i ){
-		stripe = i % 2 == 0 ? "even" : "odd";
+		stripe = i % 2 == 0 ? 'odd' : 'even';
 		var cleanName = this.name.replace( /[\s()\&]/g, '' );
 		// console.log(cleanName);
 		$( 'table#skill' ).append(

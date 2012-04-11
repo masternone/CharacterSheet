@@ -5,7 +5,7 @@ var path         = require( "path" ),
 
 function out( response, fileName ){
 	var fullFileName = path.join(process.cwd(), fileName );
-	console.log( fullFileName );
+	// console.log( fullFileName );
 	path.exists( fullFileName, function( exists ){
 		if( !exists ){
 			errorHandler.error404( response );

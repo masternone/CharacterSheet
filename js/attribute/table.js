@@ -12,11 +12,20 @@ options.attribute.table = function(){
 	)
 	// Add headers
 	$( 'table#attribute' ).append(
-		"<tr><th class=abbr>&nbsp;</th><th class=final colspan=2>Final</th><th class=cost>Cost</th><th class=score>Score</th><th class=race>Race</th><th class=background>Background</th></tr>"
+		'<thead>' +
+			'<tr>' +
+				'<th class=abbr>&nbsp;</th>' +
+				'<th class=final colspan=2>Final</th>' +
+				'<th class=cost>Cost</th>' +
+				'<th class=score>Score</th>' +
+				'<th class=race>Race</th>' +
+				'<th class=background>Background</th>' + 
+			'</tr>' +
+		'</thead>'
 	);
 	// build a row for each attribute
 	$( attr.data.name ).each( function( i ){
-		stripe = i % 2 == 0 ? "even" : "odd"; 
+		stripe = i % 2 == 0 ? "odd" : "even"; 
 		$( 'table#attribute' ).append(
 			"<tr class='" + this[1] + " numbers " + stripe + "'>" +
 				"<td class='" + this[1] + " abbr'>" + this[0] + "</td>" +

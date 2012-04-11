@@ -29,13 +29,21 @@ $(document).ready(function() {
 					);
 				}
 			});
-			//if a data location has an additional table build it
+			// language is not pre populate with data
+			head.js( 
+				'js/language/table.js',
+				'js/language/function.js'
+			);
+			// if a data location has an additional table build it
 			head.ready( function(){
 				$( dataLocations ).each( function(){
 					if( options && options[this] && options[this].table && typeof( options[this].table ) == 'function' ){
 						options[this].table();
 					}
 				});
+				if( options && options.language && options.language.table && typeof( options.language.table ) == 'function' ){
+					options.language.table();
+				}
 			});
 			//the nation has to selects and its data is linked to what is selected in the nation select
 			options.utill.linkedSelectBuild( 'nation', 'region' );
@@ -60,12 +68,14 @@ $(document).ready(function() {
 					// console.log( 'before calling set function', this );
 					if( this.name == selected ){
 						options[source + 'Selected'] = this;
-						//Attributes
+						// Attributes
 						if( options[source + 'Selected'].attribute && options[source + 'Selected'].attribute.length > 0 ) options.attribute.set( this, source );
-						//Skill
+						// Skill
 						if( options[source + 'Selected'].skill && options[source + 'Selected'].skill.length > 0 ) options.skill.set( source );
-						//talents
-						//TODO:add talent selecting code here
+						// Language
+						if( options[source + 'Selected'].language && options[source + 'Selected'].language.length > 0 ) options.language.set( source );
+						// talents
+						// TODO:add talent selecting code here
 					}
 				});
 			}

@@ -2,11 +2,15 @@ options = typeof( options ) == 'object' ? options : {};
 options.attribute = typeof( options.attribute ) == 'object' ? options.attribute : {};
 // Fill in the final column
 options.attribute.finalize = function( table ){
+	// console.log( 'options.attribute.finalize table', table );
 	$.each( options.attribute.data.name, function(){
 		var name = this[1];
+		// console.log( 'name', name );
 		if( $( table + ' .' + name + '.score > input' ).val() * 1 > 0 && $( table + ' .' + name + '.score > input' ).val() * 1 <= options.attribute.data.cost.length ){
-			var raceAdj       = $( table + ' .' + name + '.race > input' ).checked       ? $( table + ' .' + name + '.race > input' ).val() * 1       : 0,
-				backgroundAdj = $( table + ' .' + name + '.background > input' ).checked ? $( table + ' .' + name + '.background > input' ).val() * 1 : 0;
+			var raceAdj       = $( table + ' .' + name + '.race > input' ).prop( 'checked' )       ? $( table + ' .' + name + '.race > input' ).val() * 1       : 0,
+				backgroundAdj = $( table + ' .' + name + '.background > input' ).prop( 'checked' ) ? $( table + ' .' + name + '.background > input' ).val() * 1 : 0;
+			// console.log( 'raceAdj', raceAdj );
+			// console.log( 'backgroundAdj', backgroundAdj );
 			$( table + ' .' + name ).removeClass( 'error' );
 			$( table + ' .' + name + '.final' ).html( $( table + ' .' + name + '.score > input' ).val() * 1 + raceAdj + backgroundAdj );
 			$( table + ' .' + name + '.die' ).html( options.attribute.data.die[$( table + ' .' + name + '.final' ).text() * 1 - 1] );
@@ -60,12 +64,14 @@ options.attribute.init = function(){
 options.attribute.init();
 // function to allow the user to choose an attribute to asign a bonus to
 options.attribute.set = function( source, column ){
+	// console.log( 'source', source );
+	// console.log( 'column', column );
 	// attribute reset
 	$( 'table#attribute .' + column + ' input' ).each( function(){
 		$( this ).val( 1 ).prop( "checked", false );
 	});
 	// console.log( source );
-	options[column + 'Groups'] = source.attribute;
+	options['attributeGroups'] = source.attribute;
 	// console.log( options[column + 'Groups'] );
 	options.utill.groupSelect( 'attribute', column );
 }

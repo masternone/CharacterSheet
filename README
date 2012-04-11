@@ -21,6 +21,7 @@ to send coments please email Edward Grant at themasternone@gmail.com with the su
 TODO:
 Break up app.js so each segment has its own file and try to refactor to make the code more reuseable.
 Loading from a file
+Language
 Selecting of Talents
 	Spells
 		Advanced spells
@@ -29,13 +30,16 @@ Selecting of Talents
 		Advanced Martial Techniques
 Selecting Equipment
 	Calculating bulk
-
+04/11/2012:
+	version 0.2.2
+	More refactoring the modal for selecting attributes and skills from race use the same function to display.
+	Selecting attributes from race complete.
+	Started selecting languages from race have a dependancy on nation and region.
 04/09/2012:
 	version 0.2.1
 	Added a package.JSON file to better maintain the dependencies.
 	Updated the readme with diffrent install instrunction to take advantage of the package.JSON
 	Allowed the server to listen to a user defined port
-
 
 04/06/2012:
 	version 0.2.0

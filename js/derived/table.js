@@ -14,7 +14,7 @@ options.derived.table = function(){
 		"<tr><th class=abbr>&nbsp;</th><th class=final>Final</th><th class=base>Base</th><th class=race>Race</th><th class=bulk>Bulk</th><th class=shield>Shield</th><th class=other>Other</th></tr>"
 	);
 	$( derived.data ).each( function( key, value ){
-		stripe = key % 2 == 0 ? "even" : "odd"; 
+		stripe = key % 2 == 0 ? 'odd' : 'even'; 
 		$( 'table#derived' ).append(
 			"<tr class='" + this.name[1] + " numbers " + stripe + "'>" +
 				"<td class='" + this.name[1] + " abbr'>" + this.name[0] + "</td>" +

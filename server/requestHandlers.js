@@ -5,12 +5,12 @@ var querystring  = require( 'querystring' ),
 	staticFile   = require( './staticFile' );
 
 function dft( response, pathName, postData ){
-	console.log( "Request handler dft on " + pathName + " was called.");
+	// console.log( "Request handler dft on " + pathName + " was called.");
 	staticFile.out( response, pathName );
 }
 
 function index( response, postData ){
-	console.log( "Request handler 'index' was called." );
+	// console.log( "Request handler 'index' was called." );
 	staticFile.out( response, 'index.html' );
 }
 
@@ -55,7 +55,7 @@ function _load( loadLocation, fileName, response, postData ){
 				});
 
 				stream.on( 'end', function(){
-					console.log( 'arguments in end', arguments );
+					// console.log( 'arguments in end', arguments );
 					response.writeHead( 200, { "Content-Type" : "text/plain" });
 					response.write( fileContent );
 					response.end();

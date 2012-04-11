@@ -104,58 +104,61 @@ options.utill.linkedSelectBuild = function( main, link ){
 options.utill.groupSelect = function( table, column ){
 	// console.log( 'table', table );
 	// console.log( 'column', column );
-	if( options[column + 'Groups'] && options[column + 'Groups'].length > 0 ){
+	if( options[table + 'Groups'] && options[table + 'Groups'].length > 0  && $( '#groupSelectModal' ).length == 0 ){
 		var currentGroup,
 			cleanName = '';
-		if( typeof( options[column + 'Groups'][0] ) == 'string' ){
+		if( typeof( options[table + 'Groups'][0] ) == 'string' ){
 			//attribute selection is given an array of strings and one can only choose one
-			currentGroup = options[column + 'Groups'];
+			currentGroup = options[table + 'Groups'];
 		} else {
-			currentGroup = options[column + 'Groups'].shift();
+			currentGroup = options[table + 'Groups'].shift();
 		}
 		// console.log( 'currentGroup', currentGroup );
 		//build modal
 		$( 'body' ).append( '<div class=offClick></div>' );
 		$( 'body' ).append( '<div id=groupSelectModal></div>' );
 		//Title with countdown
-		$( 'div#groupSelectModal' ).append( '<h1>Select ' + column + ' ' + ( options[column + 'Groups'].length + 1 ) + '</h1>' );
+		$( 'div#groupSelectModal' ).append( '<h1>Select ' + table + ' ' + ( options[table + 'Groups'].length + 1 ) + '</h1>' );
 		$( 'div#groupSelectModal' ).append( '<div class=jScrollPane></div>' );
-		$( 'div.jScrollPane' ).append( '<table id=groupSelect class=' + column + ' border=1 cellspacing=0 cellpadding=1></table>' );
-		console.log( "$( 'table#'" + table + "' thead' )", $( 'table#' + table + ' thead' ));
+		$( 'div.jScrollPane' ).append( '<table id=groupSelect class=' + table + ' border=1 cellspacing=0 cellpadding=1></table>' );
+		// console.log( "$( 'table#'" + table + "' thead' )", $( 'table#' + table + ' thead' ));
 		$( 'table#' + table + ' thead' ).clone().appendTo( 'table#groupSelect' );
-		// console.log( currentGroup );
-		if( typeof( currentGroup[0] == 'string' )){
+		// console.log( 'currentGroup', currentGroup );
+		// console.log( 'currentGroup[0]', currentGroup[0] );
+		if( typeof( currentGroup[0] ) == 'string' ){
 			while( currentGroup.length > 0 ){
 				cleanName = currentGroup.shift().replace( /[\s()\&]/g, '' );
 				if( !$( 'table#' + table + ' .' + column + '.' + cleanName + ' > input' ).prop( 'checked' )){
-					$( 'table#' + table + ' tr.' + cleanName ).clone().removeClass( 'even odd' ).addClass( $( 'table#groupSelect tr' ).length % 2 == 0 ? 'even' : 'odd' ).appendTo( 'table#groupSelect' );
+					// console.log( "Math.ceil( $( 'table#groupSelect tr' ).length / 2 % 2 )", Math.ceil( $( 'table#groupSelect tr' ).length / 2 % 2 ));
+					$( 'table#' + table + ' tr.' + cleanName ).clone().removeClass( 'even odd' ).addClass( Math.floor( $( 'table#groupSelect tr' ).length / 2 % 2 )  == 0 ? 'odd' : 'even' ).appendTo( 'table#groupSelect' );
 				}
 			}
 		} else {
 			$.each( currentGroup, function( key, value ){
-				console.log( key, value );
-				console.log( this );
+				// console.log( key, value );
+				// console.log( this );
 				cleanName = value.name.replace( /[\s()\&]/g, '' );
 				// Only allow one to choos an option if they have not chosen that skill for the current source
-				if( !$( 'table#' + column + ' .' + source + '.' + cleanName + ' > input' ).prop( 'checked' )){
-					$( 'table#' + column + ' tr.' + cleanName ).clone().removeClass( 'even odd' ).addClass( $( 'table#groupSelect tr' ).length % 2 == 0 ? 'even' : 'odd' ).appendTo( 'table#groupSelect' );
+				if( !$( 'table#' + table + ' .' + column + '.' + cleanName + ' > input' ).prop( 'checked' )){
+					$( 'table#' + table + ' tr.' + cleanName ).clone().removeClass( 'even odd' ).addClass( $( 'table#groupSelect tr' ).length % 2 == 0 ? 'even' : 'odd' ).appendTo( 'table#groupSelect' );
 				}
 			});
 		}
 		//allow the user to see how things will change depending on what they are choosing
+		$( 'table#groupSelect input[type="number"]' ).prop( 'disabled', true );
 		$( 'table#groupSelect .' + column + ' input' ).prop( 'type', 'radio' ).prop( 'name', 'groupSelect' ).prop( 'disabled', false );
 		$( 'table#groupSelect .' + column + ' input' ).click( function(){ options[table].finalize( 'table#groupSelect' ); });
-		if( options[column + 'Groups'].length > 0 ){
+		if( options[table + 'Groups'].length > 0 ){
 			$( 'div#groupSelectModal' ).append( '<div id=done>Next &raquo;</div>' );
 		} else {
 			$( 'div#groupSelectModal' ).append( '<div id=done>Done</div>' );
 		}
-		$( 'div#groupSelectModal  div#done' ).click( function(){
+		$( 'div#groupSelectModal div#done' ).click( function(){
 			//update the main skill table if a skill is selected else do nothing
-			if( $( 'table#groupSelect .' + source + ' > input:checked' ).length > 0 ){
+			if( $( 'table#groupSelect .' + column + ' > input:checked' ).length > 0 ){
 				$( 'table#' + table + ' .' + $( 'table#groupSelect .' + column + ' > input:checked' ).parent().prop( 'class' ).replace( /\s/, '.' ) + ' input' ).prop( 'checked', true );
 				$( 'body div.offClick, body div#groupSelectModal' ).remove();
-				options[table].groupSelect( table, column );
+				options.utill.groupSelect( table, column );
 				options[table].finalize( 'table#' + table + '' );
 			}
 		});
@@ -166,5 +169,13 @@ options.utill.groupSelect = function( table, column ){
 		});
 		//enable the scrolling
 		$( 'div.jScrollPane' ).jScrollPane({ verticalDragMinHeight: 27, verticalDragMaxHeight: 27, verticalGutter: 10 });
+	} else {
+		// console.log( 'column', column );
+		// console.log( 'options', options );
+		// console.log( "options[column + 'Groups']", options[column + 'Groups'] );
+		if( options[table + 'Groups'] && options[table + 'Groups'].length > 0 ) {
+			console.log( 'the modal is already being displayed' );
+			setTimeout( function(){ options.utill.groupSelect( table, column )}, 1000 );
+		}
 	}
 }

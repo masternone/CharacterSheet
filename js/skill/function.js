@@ -7,52 +7,6 @@ options.skill.spend = function(){
 // else spend = 3 ranks = 2
 // else error
 }
-options.skill.groupSelect = function( source ){
-	return false;
-	if( options.skillGroups.length > 0 ){
-		var currentSkillGroup = options.skillGroups.shift(),
-			cleanName = '';
-		//build modal
-		$( 'body' ).append( '<div class=offClick></div>' );
-		$( 'body' ).append( '<div id=skillGroupSelectModal></div>' );
-		//Title with countdown
-		$( 'div#skillGroupSelectModal' ).append( '<h1>Select Skill ' + ( options.skillGroups.length + 1 ) + '</h1>' );
-		$( 'div#skillGroupSelectModal' ).append( '<div class=jScrollPane></div>' );
-		$( 'div.jScrollPane' ).append( '<table id=skillGroupSelect border=1 cellspacing=0 cellpadding=1></table>' );
-		$( 'table#skill thead' ).clone().appendTo( 'table#skillGroupSelect' );
-		$.each( currentSkillGroup, function( key, value ){
-			cleanName = value.name.replace( /[\s()\&]/g, '' );
-			//Only allow one to choos a skill if they have not chosen that skill for the current source
-			if( !$( 'table#skill .' + source + '.' + cleanName + ' > input' ).prop( 'checked' )){
-				$( 'table#skill tr.' + cleanName ).clone().removeClass( 'even odd' ).addClass( $( 'table#skillGroupSelect tr' ).length % 2 == 0 ? 'even' : 'odd' ).appendTo( 'table#skillGroupSelect' );
-			}
-		});
-		//allow the user to see how things will change depending on what they are choosing
-		$( 'table#skillGroupSelect .' + source + ' input' ).prop( 'type', 'radio' ).prop( 'name', 'skillGroupSelect' ).prop( 'disabled', false );
-		$( 'table#skillGroupSelect .' + source + ' input' ).click( function(){ options.skill.finalize( 'table#skillGroupSelect' ); });
-		if( options.skillGroups.length > 0 ){
-			$( 'div#skillGroupSelectModal' ).append( '<div id=done>Next &raquo;</div>' );
-		} else {
-			$( 'div#skillGroupSelectModal' ).append( '<div id=done>Done</div>' );
-		}
-		$( 'div#skillGroupSelectModal  div#done' ).click( function(){
-			//update the main skill table if a skill is selected else do nothing
-			if( $( 'table#skillGroupSelect .' + source + ' > input:checked' ).length > 0 ){
-				$( 'table#skill .' + $( 'table#skillGroupSelect .' + source + ' > input:checked' ).parent().prop( 'class' ).replace( /\s/, '.' ) + ' input' ).prop( 'checked', true );
-				$( 'body div.offClick, body div#skillGroupSelectModal' ).remove();
-				options.skill.groupSelect( source );
-				options.skill.finalize( 'table#skill' );
-			}
-		});
-		//center the modal on the screen
-		$( 'div#skillGroupSelectModal' ).css({
-			left : ( $( window ).width()  - $( 'div#skillGroupSelectModal' ).outerWidth( true )) / 2,
-			top  : ( $( window ).height() - $( 'div#skillGroupSelectModal' ).outerHeight( true )) / 2
-		});
-		//enable the scrolling
-		$( 'div.jScrollPane' ).jScrollPane({ verticalDragMinHeight: 27, verticalDragMaxHeight: 27, verticalGutter: 10 });
-	}
-}
 options.skill.set = function( column ){
 	var groupCount = 0;
 	//skill reset
@@ -60,12 +14,15 @@ options.skill.set = function( column ){
 		$( this ).val( 1 ).prop( "checked", false );
 	});
 	//set
+	// console.log( "$( options[column + 'Selected'].skill )", $( options[column + 'Selected'].skill ));
 	$( options[column + 'Selected'].skill ).each( function(){
 		$.each( this, function( action, actionData ){
 			var skillCount = 0;
 			if( typeof( options.skillGroups ) == 'undefined' ) options.skillGroups = new Array();
 			if( options.skillGroups[groupCount] && options.skillGroups[groupCount].length > 0 ) groupCount++;
 			options.skillGroups[groupCount] = new Array();
+			// console.log( 'action', action );
+			// console.log( 'actionData', actionData );
 			switch( action ){
 				case "specfic":
 					var cleanName = this.replace( /[\s()\&]/g, '' );
@@ -132,9 +89,9 @@ options.skill.set = function( column ){
 			}
 		});
 	});
-	//console.log( 'options.skillGroups', options.skillGroups )
+	// console.log( 'options.skillGroups', options.skillGroups )
 	if( options.skillGroups && options.skillGroups.length > 0 ){
-		options.skill.groupSelect( column );
+		options.utill.groupSelect( 'skill', column );
 	}
 	options.skill.finalize();
 }
