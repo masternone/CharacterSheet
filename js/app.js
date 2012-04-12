@@ -62,7 +62,7 @@ $(document).ready(function() {
 		if( selected == "error" ){
 			options[source + 'Selected'] = "error";
 		} else {
-			// console.log( 'source', source );
+			console.log( 'source', source );
 			if( options[source] && options[source].data ){
 				$( options[source].data ).each( function(){
 					// console.log( 'before calling set function', this );
