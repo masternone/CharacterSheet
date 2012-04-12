@@ -1,7 +1,6 @@
 var dataLocations = ["archetype","attribute","derived","race","religion","nation","skill","background"],
 	options = {};
 
-
 $(document).ready(function() {
 	//Pull and initalize data
 	$.when(
@@ -55,27 +54,43 @@ $(document).ready(function() {
 	);
 
 	//initalize listner for selects
-	$( "td > select" ).change( function(){
+	$( 'table#selections td > select' ).change( function(){
 		var $this = $( this ),
 			source = $this.parent().prop( 'class' ),
 			selected = $this.find( ':selected' ).val();
 		if( selected == "error" ){
 			options[source + 'Selected'] = "error";
 		} else {
-			console.log( 'source', source );
+			// console.log( 'source in change listener', source );
 			if( options[source] && options[source].data ){
 				$( options[source].data ).each( function(){
-					// console.log( 'before calling set function', this );
 					if( this.name == selected ){
+						 console.log( 'before calling set function', this );
 						options[source + 'Selected'] = this;
-						// Attributes
-						if( options[source + 'Selected'].attribute && options[source + 'Selected'].attribute.length > 0 ) options.attribute.set( this, source );
-						// Skill
-						if( options[source + 'Selected'].skill && options[source + 'Selected'].skill.length > 0 ) options.skill.set( source );
-						// Language
-						if( options[source + 'Selected'].language && options[source + 'Selected'].language.length > 0 ) options.language.set( source );
-						// talents
-						// TODO:add talent selecting code here
+						$.each( this, function( key, value ){
+							switch( key ){
+								case 'region':
+									// the nation has to selects and its data is linked to what is selected in the nation select
+									options.utill.linkedSelectBuild( 'nation', 'region' );
+									break;
+								case 'attribute':
+									options.attribute.set( source );
+									break;
+								case 'skill':
+									options.skill.set( source );
+									break;
+								case 'language':
+									// console.log( 'source', source );
+									// console.log( "options[source + 'Selected']", options[source + 'Selected'] );
+									// console.log( "options[source + 'Selected'].language", options[source + 'Selected']['language'] );
+									if( options[source + 'Selected'].language && options[source + 'Selected'].language.length > 0 ) options.language.set( source );
+									break;
+								// Talents
+								// TODO:add talent selecting code here
+								default:
+									console.log( 'selection key not implemented ' + source + '.' + key );
+							}
+						});
 					}
 				});
 			}

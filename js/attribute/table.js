@@ -44,8 +44,9 @@ options.attribute.table = function(){
 		);
 	});
 	//add a total row
+	stripe = ( $( 'table#attribute tr' ).length - 1 ) / 2 % 2 == 0 ? 'odd' : 'even';
 	$( 'table#attribute' ).append(
-		"<tr class='total numbers'>" +
+		"<tr class='total numbers " + stripe + "'>" +
 			"<td class='total abbr'>total</td>" +
 			"<td class='total cost'colspan=3></td>" +
 			"<td class='total fill'colspan=3></td>" +

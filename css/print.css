@@ -1,3 +1,4 @@
+table#selections .save,
 table#attribute .cost,
 table#attribute .score,
 table#attribute .race,
@@ -6,6 +7,25 @@ table#attribute .fill,
 table#attribute .total,
 table#derived .base,
 table#derived .race,
-table#derived .other{
+table#derived .other,
+table#skill .archetype,
+table#skill .race,
+table#skill .region,
+table#skill .background,
+table#skill .spend,
+table#skill .gain{
 	display: none;
+}
+select:after{
+	content:attr(value);
+}
+
+div#wrapper{
+	width: auto;
+}
+table#attribute, table#derived{
+	width: auto;
+}
+table#skill{
+	page-break-before:always;
 }

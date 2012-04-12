@@ -44,11 +44,11 @@ td{
 td.save{
 	text-align: center;
 }
-div#wrapper{
+table#selections, div#wrapper{
 	width: 50em;
 }
 table#attribute, table#derived{
-	width: 25em;
+	width: 50%;
 }
 table#attribute, table#derived, table#skills, table#language{
 	float: left;

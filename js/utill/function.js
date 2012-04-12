@@ -66,13 +66,12 @@ options.utill.concatinate = function( source ){
 	return ret;
 }
 options.utill.minimum = function( source ){
-	var ret = "Math.min(";
-	for( var i in source ){
-		ret = ret + $( '.' + source[i] ).text() * 1;
-		if( typeof( source[i * 1 + 1] ) != 'undefined' ) ret = ret + ',';
-	}
-	ret = ret + ')';
-	return eval( ret );
+	var ret = $( '.' + source[0] ).text() * 1;
+	$.each( source, function( key, value ){
+		var check = $( '.' + value ).text() * 1;
+		ret = Math.min( ret < check );
+	});
+	return ret;
 }
 
 //pull all data files with an AJAX call
@@ -98,8 +97,15 @@ options.utill.selectBuild = function( type ){
 	}
 }
 options.utill.linkedSelectBuild = function( main, link ){
-	$( '.' + link + ' > select' ).append( '<option val="error">-select a ' + main + '-</option>' );
-	//TODO: when main changes add data to link
+	$( '.' + link + ' > select' ).empty().append( '<option value="error">-select a ' + main + '-</option>' );
+	// TODO: when main changes add data to link
+	if( options[main + 'Selected'] && options[main + 'Selected'][link] && options[main + 'Selected'][link].length > 0 ){
+		$.each( options[main + 'Selected'][link], function( key, value ){
+			// console.log( key, value );
+			// console.log( this );
+			$( '.' + link + ' > select' ).append( '<option value="' + value + '">' + value + '</option>' );
+		});
+	}
 }
 options.utill.groupSelect = function( table, column ){
 	// console.log( 'table', table );
@@ -113,7 +119,7 @@ options.utill.groupSelect = function( table, column ){
 		} else {
 			currentGroup = options[table + 'Groups'].shift();
 		}
-		// console.log( 'currentGroup', currentGroup );
+		console.log( 'currentGroup', currentGroup );
 		//build modal
 		$( 'body' ).append( '<div class=offClick></div>' );
 		$( 'body' ).append( '<div id=groupSelectModal></div>' );
@@ -174,7 +180,7 @@ options.utill.groupSelect = function( table, column ){
 		// console.log( 'options', options );
 		// console.log( "options[column + 'Groups']", options[column + 'Groups'] );
 		if( options[table + 'Groups'] && options[table + 'Groups'].length > 0 ) {
-			console.log( 'the modal is already being displayed' );
+			// console.log( 'the modal is already being displayed' );
 			setTimeout( function(){ options.utill.groupSelect( table, column )}, 1000 );
 		}
 	}

@@ -63,15 +63,13 @@ options.attribute.init = function(){
 }
 options.attribute.init();
 // function to allow the user to choose an attribute to asign a bonus to
-options.attribute.set = function( source, column ){
-	// console.log( 'source', source );
-	// console.log( 'column', column );
+options.attribute.set = function( column ){
+	// console.log( 'options.attribute.set column', column );
 	// attribute reset
 	$( 'table#attribute .' + column + ' input' ).each( function(){
 		$( this ).val( 1 ).prop( "checked", false );
 	});
-	// console.log( source );
-	options['attributeGroups'] = source.attribute;
+	options['attributeGroups'] = options[column + 'Selected'].attribute;
 	// console.log( options[column + 'Groups'] );
 	options.utill.groupSelect( 'attribute', column );
 }
