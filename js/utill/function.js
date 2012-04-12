@@ -107,6 +107,9 @@ options.utill.linkedSelectBuild = function( main, link ){
 		});
 	}
 }
+options utill.givenSelect = function( table, given ){
+	
+}
 options.utill.groupSelect = function( table, column ){
 	// console.log( 'table', table );
 	// console.log( 'column', column );

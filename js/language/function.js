@@ -9,7 +9,7 @@ options.language.set = function( source ){
 			// console.log( $( this ).find( 'td' ).eq( 0 ).text());
 			if( $( this ).find( 'td' ).eq( 0 ).text() == 'native nation' ){
 				$( this ).addCladd( 'nativeNation' );
-				options.utill.groupSelect( source, 'language' );
+				options.utill.groupSelect( 'language', options[source + 'Selected'].language );
 			}
 		});
 	} else {
