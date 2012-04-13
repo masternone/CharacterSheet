@@ -44,13 +44,19 @@ td{
 td.save{
 	text-align: center;
 }
-table#selections, div#wrapper{
+table#selection, div#wrapper{
 	width: 50em;
+}
+table#note{
+	width: 75%;
 }
 table#attribute, table#derived{
 	width: 50%;
 }
-table#attribute, table#derived, table#skills, table#language{
+table#language{
+	width: 25%;
+}
+table#attribute, table#derived, table#skills, table#language, table#note{
 	float: left;
 }
 tr.numbers{

@@ -1,7 +1,7 @@
 options = typeof( options ) == 'object' ? options : {};
 options.language = typeof( options.language ) == 'object' ? options.language : {};
 options.language.set = function( source ){
-	console.log( 'language set source', source );
+	// console.log( 'language set source', source );
 	// console.log( 'options[' + source + 'Selected].language', options[source + 'Selected'].language );
 	if( source == 'nation' ){
 		// If source is nation only do something if native nations is listed in the language table

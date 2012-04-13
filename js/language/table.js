@@ -6,7 +6,7 @@ options.language.table = function(){
 	if( $( 'table#derived' ).length == 0 ){
 		setTimeout( function(){ language.table(); }, 100 );
 	} else if( $( 'table#language' ).length == 0 ){
-		$( 'table#selections' ).after( '<div id=wrapper></div>' );
+		$( 'table#selection' ).after( '<div id=wrapper></div>' );
 		$( 'div#wrapper' ).append( $( 'table#attribute, table#derived' ));
 		//build language table
 		$( 'table#derived' ).after(

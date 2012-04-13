@@ -1,4 +1,4 @@
-table#selections .save,
+table#selection .save,
 table#attribute .cost,
 table#attribute .score,
 table#attribute .race,
@@ -25,6 +25,9 @@ div#wrapper{
 }
 table#attribute, table#derived{
 	width: auto;
+}
+table#note{
+	width: 29em;
 }
 table#skill{
 	page-break-before:always;

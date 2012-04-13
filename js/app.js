@@ -2,6 +2,7 @@ var dataLocations = ["archetype","attribute","derived","race","religion","nation
 	options = {};
 
 $(document).ready(function() {
+	head.ready( 'selectTable', function(){ options.selection.table(); });
 	//Pull and initalize data
 	$.when(
 		options.utill.dataGet( dataLocations[0] ),
@@ -28,11 +29,6 @@ $(document).ready(function() {
 					);
 				}
 			});
-			// language is not pre populate with data
-			head.js( 
-				'js/language/table.js',
-				'js/language/function.js'
-			);
 			// if a data location has an additional table build it
 			head.ready( function(){
 				$( dataLocations ).each( function(){
@@ -43,10 +39,12 @@ $(document).ready(function() {
 				if( options && options.language && options.language.table && typeof( options.language.table ) == 'function' ){
 					options.language.table();
 				}
+				if( options && options.note && options.note.table && typeof( options.note.table ) == 'function' ){
+					options.note.table();
+				}
 			});
 			//the nation has to selects and its data is linked to what is selected in the nation select
 			options.utill.linkedSelectBuild( 'nation', 'region' );
-			//TODO: initalize listner functions
 		},
 		function(){
 			console.log( 'in fail' );
@@ -54,7 +52,7 @@ $(document).ready(function() {
 	);
 
 	//initalize listner for selects
-	$( 'table#selections td > select' ).change( function(){
+	$( 'table#selection td > select' ).change( function(){
 		var $this = $( this ),
 			source = $this.parent().prop( 'class' ),
 			selected = $this.find( ':selected' ).val();
@@ -69,6 +67,9 @@ $(document).ready(function() {
 						options[source + 'Selected'] = this;
 						$.each( this, function( key, value ){
 							switch( key ){
+								case 'name':
+									//do nothing this value is used for display 
+									break;
 								case 'region':
 									// the nation has to selects and its data is linked to what is selected in the nation select
 									options.utill.linkedSelectBuild( 'nation', 'region' );
@@ -85,8 +86,13 @@ $(document).ready(function() {
 									// console.log( "options[source + 'Selected'].language", options[source + 'Selected']['language'] );
 									options.language.set( source );
 									break;
-								// Talents
-								// TODO:add talent selecting code here
+								case 'note':
+									options.note.set( source );
+									break;
+								case 'talent':
+									// Talents
+									// TODO:add talent selecting code here
+									break;
 								default:
 									console.log( 'selection key not implemented ' + source + '.' + key );
 							}
@@ -96,67 +102,20 @@ $(document).ready(function() {
 			}
 		}
 	}).change();
-/*
-	$( "td.archetype > select" ).change( function(){
-		var $this = $( this ),
-			selected = $this.find( ':selected' ).val();
-		if( selected == "error" ){
-			options.archetypeSelected = "error";
-		} else {
-			for( var i in options.archetype ){
-				if( options.archetype[i].name == selected ) break;
-			}
-			options.archetypeSelected = options.archetype[i];
-			skillSet( 'archetype' );
-			//talents
-			//TODO:add talent selecting code here
-		}
-	}).change();
 
-	$( "td.religion > select" ).change( function(){
-		var $this = $( this ),
-			selected = $this.find( ':selected' ).val();
-		if( selected == "error" ){
-			options.religionSelected = "error";
-		} else {
-			for( var i in options.religion ){
-				if( options.religion[i].name == selected ) break;
-			}
-			options.religionSelected = options.religion[i];
-		}
-		$( 'td.archetype > select' ).change();
-		$( 'td.background > select' ).change();
-	}).change();
-
-	$( "td.background > select" ).change( function(){
-		var $this = $( this ),
-			selected = $this.find( ':selected' ).val();
-		if( selected == "error" ){
-			options.backgroundSelected = "error";
-		} else {
-			for( var i in options.background ){
-				if( options.background[i].name == selected ) break;
-			}
-			options.backgroundSelected = options.background[i];
-			skillSet( 'background' );
-			//talents
-			//TODO:add talent selecting code here
-		}
-	}).change();
-*/
 	$( "td.save > input[name='load']" ).click( function(){
 		console.log( 'load' );
 	});
 
 	$( "td.save > input[name='save']" ).click( function(){
-		//grab data from selections table
+		//grab data from selection table
 		var toSave = {
-			selections : {
-				name : $( 'table#selections td.name input' ).val()
+			selection : {
+				name : $( 'table#selection td.name input' ).val()
 			}
 		};
 		for( i in dataLocations ){
-			toSave.selections[dataLocations[i]] = $( 'table#selections td.' + dataLocations[i] + ' option:selected').val();
+			toSave.selection[dataLocations[i]] = $( 'table#selection td.' + dataLocations[i] + ' option:selected').val();
 		}
 		//grab data from attribute table
 		for( var i in options.attribute.name ){
@@ -212,7 +171,7 @@ $(document).ready(function() {
 				$( '<div class="error">' + returnJSON.error + '</div>' ).prependTo('body' );
 				switch( returnJSON.errorField ){
 					case "name":
-						$( 'table#selections td.name' ).addClass( 'error' );
+						$( 'table#selection td.name' ).addClass( 'error' );
 						break;
 					default:
 						console.log( 'No field is identified witht this error' );
@@ -223,10 +182,10 @@ $(document).ready(function() {
 	});
 
 	$( "td.save > input[name='load']" ).click( function(){
-		//grab character name from selections table
+		//grab character name from selection table
 		var toLoad = {
-			selections : {
-				name : $( 'table#selections td.name input' ).val()
+			selection : {
+				name : $( 'table#selection td.name input' ).val()
 			}
 		};
 
@@ -248,7 +207,7 @@ $(document).ready(function() {
 				$( '<div class="error">' + returnJSON.error + '</div>' ).prependTo('body' );
 				switch( returnJSON.errorField ){
 					case "name":
-						$( 'table#selections td.name' ).addClass( 'error' );
+						$( 'table#selection td.name' ).addClass( 'error' );
 						break;
 					default:
 						console.log( 'No field is identified witht this error' );

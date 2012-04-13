@@ -3,11 +3,11 @@ options.attribute = typeof( options.attribute ) == 'object' ? options.attribute 
 options.attribute.table = function(){
 	var attr = this;
 	// only insert the attribute table after the selection table
-	if( $( 'table#selections' ).length == 0 ){
+	if( $( 'table#selection' ).length == 0 ){
 		setTimeout( function(){ attr.table(); }, 100 );
 	}
 	//build attribute table
-	$( 'table#selections' ).after(
+	$( 'table#selection' ).after(
 		"<table id=attribute border=1 cellspacing=0 cellpadding=1></table>"
 	)
 	// Add headers

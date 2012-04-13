@@ -25,7 +25,7 @@ function _save( saveLocation, fileName, response, postData ){
 			stream.write( postData );
 
 			response.writeHead( 200, { "Content-Type" : "text/plain" });
-			response.write( JSON.stringify({ success : postDataJSON.selections.name + ' Saved!' }));
+			response.write( JSON.stringify({ success : postDataJSON.selection.name + ' Saved!' }));
 			response.end();
 		});
 	});
@@ -75,12 +75,12 @@ function _characterIO( type, response, postData ){
 
 	var postDataJSON = JSON.parse( postData );
 
-	if( !postDataJSON.selections.name || postDataJSON.selections.name.length == 0 ){
+	if( !postDataJSON.selection.name || postDataJSON.selection.name.length == 0 ){
 		errorHandler.error500( response, JSON.stringify({ error : 'Post data has no name value', errorField: 'name' }));
 		return
 	}
 
-	var fileName     = postDataJSON.selections.name.replace( /\W*/g, '' ),
+	var fileName     = postDataJSON.selection.name.replace( /\W*/g, '' ),
 		saveLocation = path.join( process.cwd(), '/saveCharacter' );
 	console.log( 'fileName', fileName );
 
