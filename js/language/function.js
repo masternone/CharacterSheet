@@ -1,15 +1,14 @@
 options = typeof( options ) == 'object' ? options : {};
 options.language = typeof( options.language ) == 'object' ? options.language : {};
 options.language.set = function( source ){
-	// console.log( 'language set source', source );
+	console.log( 'language set source', source );
 	// console.log( 'options[' + source + 'Selected].language', options[source + 'Selected'].language );
 	if( source == 'nation' ){
 		// If source is nation only do something if native nations is listed in the language table
 		$( 'table#language tr' ).each( function(){
 			// console.log( $( this ).find( 'td' ).eq( 0 ).text());
-			if( $( this ).find( 'td' ).eq( 0 ).text() == 'native nation' ){
-				$( this ).addCladd( 'nativeNation' );
-				options.utill.groupSelect( 'language', options[source + 'Selected'].language );
+			if( $( this ).hasClass( source + 'Select') ){
+				options.utill.givenSelect( source, 'language', options[source + 'Selected'].language );
 			}
 		});
 	} else {
@@ -32,8 +31,9 @@ options.language.set = function( source ){
 					console.log( 'select a language' );
 					break;
 				default:
+					var nationSelect = value == 'native nation' ? 'nationSelect' : '';
 					$( 'table#language' ).append(
-						'<tr>' +
+						'<tr class="' + source + ' ' + nationSelect + '">' +
 							'<td>' + name     + '</td>' +
 							'<td>' + literate + '</td>' +
 						'</tr>'

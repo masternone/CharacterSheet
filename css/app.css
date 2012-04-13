@@ -88,6 +88,9 @@ div#groupSelectModal div#done{
 	margin: .625em 0 0;
 	padding: 5px;
 }
+div#groupSelectModal td.select{
+	cursor: pointer;
+}
 div#groupSelectModal{
 	background-color: white;
 	border: .125em solid black;

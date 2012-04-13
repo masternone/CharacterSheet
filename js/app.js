@@ -65,7 +65,7 @@ $(document).ready(function() {
 			if( options[source] && options[source].data ){
 				$( options[source].data ).each( function(){
 					if( this.name == selected ){
-						 console.log( 'before calling set function', this );
+						 // console.log( 'before calling set function', this );
 						options[source + 'Selected'] = this;
 						$.each( this, function( key, value ){
 							switch( key ){
@@ -83,7 +83,7 @@ $(document).ready(function() {
 									// console.log( 'source', source );
 									// console.log( "options[source + 'Selected']", options[source + 'Selected'] );
 									// console.log( "options[source + 'Selected'].language", options[source + 'Selected']['language'] );
-									if( options[source + 'Selected'].language && options[source + 'Selected'].language.length > 0 ) options.language.set( source );
+									options.language.set( source );
 									break;
 								// Talents
 								// TODO:add talent selecting code here

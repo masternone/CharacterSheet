@@ -107,7 +107,40 @@ options.utill.linkedSelectBuild = function( main, link ){
 		});
 	}
 }
-options utill.givenSelect = function( table, given ){
+options.utill.givenSelect = function( source, table, given ){
+	// console.log( 'source', source );
+	// console.log( 'table', table );
+	// console.log( 'given', given );
+	//build modal
+	$( 'body' ).append( '<div class=offClick></div>' );
+	$( 'body' ).append( '<div id=groupSelectModal></div>' );
+	//Title with countdown
+	$( 'div#groupSelectModal' ).append( '<h1>Select ' + table + ' 1</h1>' );
+	$( 'div#groupSelectModal' ).append( '<div class=jScrollPane></div>' );
+	$( 'div.jScrollPane' ).append( '<table id=groupSelect class=' + table + ' border=1 cellspacing=0 cellpadding=1></table>' );
+	$( 'table#' + table + ' thead' ).clone().appendTo( 'table#groupSelect' );
+	$.each( given, function(){
+		$( 'table#groupSelect' ).append( '<tr></tr>' );
+		$.each( this, function(){
+			$( 'table#groupSelect tr' ).last().append( '<td>' + this + '</td>' );
+		});
+		$( 'table#groupSelect tr' ).last().append( '<td class=select>Select</td>' )
+	});
+	// update main table when selection is made
+	$( 'table#groupSelect td.select' ).click( function(){
+		// console.log( 'index', $( this ).parent().index());
+		$.each( given[$( this ).parent().index()], function( key, value ){
+			$( 'table#' + table + ' tr.' + source + 'Select td' ).eq( key ).text( value );
+		});
+		$( 'body div.offClick, body div#groupSelectModal' ).remove();
+	});
+	// center the modal on the screen
+	$( 'div#groupSelectModal' ).css({
+		left : ( $( window ).width()  - $( 'div#groupSelectModal' ).outerWidth( true )) / 2,
+		top  : ( $( window ).height() - $( 'div#groupSelectModal' ).outerHeight( true )) / 2
+	});
+	//enable the scrolling
+	$( 'div.jScrollPane' ).jScrollPane({ verticalDragMinHeight: 27, verticalDragMaxHeight: 27, verticalGutter: 10 });
 	
 }
 options.utill.groupSelect = function( table, column ){
@@ -122,7 +155,7 @@ options.utill.groupSelect = function( table, column ){
 		} else {
 			currentGroup = options[table + 'Groups'].shift();
 		}
-		console.log( 'currentGroup', currentGroup );
+		// console.log( 'currentGroup', currentGroup );
 		//build modal
 		$( 'body' ).append( '<div class=offClick></div>' );
 		$( 'body' ).append( '<div id=groupSelectModal></div>' );
@@ -163,7 +196,7 @@ options.utill.groupSelect = function( table, column ){
 			$( 'div#groupSelectModal' ).append( '<div id=done>Done</div>' );
 		}
 		$( 'div#groupSelectModal div#done' ).click( function(){
-			//update the main skill table if a skill is selected else do nothing
+			//update the main table if a selection is made else do nothing
 			if( $( 'table#groupSelect .' + column + ' > input:checked' ).length > 0 ){
 				$( 'table#' + table + ' .' + $( 'table#groupSelect .' + column + ' > input:checked' ).parent().prop( 'class' ).replace( /\s/, '.' ) + ' input' ).prop( 'checked', true );
 				$( 'body div.offClick, body div#groupSelectModal' ).remove();
