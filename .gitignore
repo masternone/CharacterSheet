@@ -6,6 +6,10 @@ saveCharacter/
 ##############################################################
 data/
 
+# Auth list #
+#############
+auth/
+
 # Node Modules #
 ################
 node_modules/

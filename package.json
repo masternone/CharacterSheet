@@ -18,7 +18,8 @@
 		"Sheet"
 	],
 	"dependencies" : {
-		"mime"   : "1.2.x"
+		"mime"      : "1.2.x",
+        "http-auth" : "1.2.x"
 	},
 	"bundleDependencies": [
 	],
