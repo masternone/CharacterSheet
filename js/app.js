@@ -42,6 +42,9 @@ $(document).ready(function() {
 				if( options && options.note && options.note.table && typeof( options.note.table ) == 'function' ){
 					options.note.table();
 				}
+				if( options && options.background && options.background.table && typeof( options.background.table ) == 'function' ){
+					options.background.table();
+				}
 			});
 			//the nation has to selects and its data is linked to what is selected in the nation select
 			options.utill.linkedSelectBuild( 'nation', 'region' );
@@ -73,6 +76,9 @@ $(document).ready(function() {
 								case 'region':
 									// the nation has to selects and its data is linked to what is selected in the nation select
 									options.utill.linkedSelectBuild( 'nation', 'region' );
+									break;
+								case 'military':
+									options.background.military( source );
 									break;
 								case 'attribute':
 									options.attribute.set( source );

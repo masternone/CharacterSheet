@@ -19,7 +19,7 @@ options.skill.table = function(){
 				"<th class=total>Total</th>" +
 				"<th class=archetype>Archetype</th>" +
 				"<th class=race>Race</th>" +
-				"<th class=region>Region</th>" +
+				"<th class=nation>Nation</th>" +
 				"<th class=background>Background</th>" +
 				"<th class=spend>Spend</th>" +
 				"<th class=gain>Gain</th>" +
@@ -42,7 +42,7 @@ options.skill.table = function(){
 				"<td class='" + cleanName + " total'></td>" +
 				"<td class='" + cleanName + " archetype'><input type=checkbox disabled=true value=1 /></td>" +
 				"<td class='" + cleanName + " race'><input type=checkbox disabled=true value=1 /></td>" +
-				"<td class='" + cleanName + " region'><input type=checkbox disabled=true value=1 /></td>" +
+				"<td class='" + cleanName + " nation'><input type=checkbox disabled=true value=1 /></td>" +
 				"<td class='" + cleanName + " background'><input type=checkbox disabled=true value=1 /></td>" +
 				"<td class='" + cleanName + " spend'><input type=number disabled=true maxlength=1 size=1 min=0 max=4 /></td>" +
 				"<td class='" + cleanName + " gain'></td>" +

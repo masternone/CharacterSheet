@@ -81,9 +81,8 @@ options.utill.dataGet = function( type ){
 		dataType: 'json',
 		async : false
 	}).done( function( data ){
-		options[type] = {
-			data : data
-		}
+		options[type] = typeof( options[type] ) == 'object' ? options[type] : {};
+		options[type].data = data;
 	});
 }
 
@@ -111,37 +110,41 @@ options.utill.givenSelect = function( source, table, given ){
 	// console.log( 'source', source );
 	// console.log( 'table', table );
 	// console.log( 'given', given );
-	//build modal
-	$( 'body' ).append( '<div class=offClick></div>' );
-	$( 'body' ).append( '<div id=groupSelectModal></div>' );
-	//Title with countdown
-	$( 'div#groupSelectModal' ).append( '<h1>Select ' + table + ' 1</h1>' );
-	$( 'div#groupSelectModal' ).append( '<div class=jScrollPane></div>' );
-	$( 'div.jScrollPane' ).append( '<table id=groupSelect class=' + table + ' border=1 cellspacing=0 cellpadding=1></table>' );
-	$( 'table#' + table + ' thead' ).clone().appendTo( 'table#groupSelect' );
-	$.each( given, function(){
-		$( 'table#groupSelect' ).append( '<tr></tr>' );
-		$.each( this, function(){
-			$( 'table#groupSelect tr' ).last().append( '<td>' + this + '</td>' );
+	if( $( '#groupSelectModal' ).length == 0 ){
+		//build modal
+		$( 'body' ).append( '<div class=offClick></div>' );
+		$( 'body' ).append( '<div id=groupSelectModal></div>' );
+		//Title with countdown
+		$( 'div#groupSelectModal' ).append( '<h1>Select ' + table + ' 1</h1>' );
+		$( 'div#groupSelectModal' ).append( '<div class=jScrollPane></div>' );
+		$( 'div.jScrollPane' ).append( '<table id=groupSelect class=' + table + ' border=1 cellspacing=0 cellpadding=1></table>' );
+		$( 'table#' + table + ' thead' ).clone().appendTo( 'table#groupSelect' );
+		$.each( given, function(){
+			$( 'table#groupSelect' ).append( '<tr></tr>' );
+			$.each( this, function(){
+				$( 'table#groupSelect tr' ).last().append( '<td>' + this + '</td>' );
+			});
+			$( 'table#groupSelect tr' ).last().append( '<td class=select>Select</td>' )
 		});
-		$( 'table#groupSelect tr' ).last().append( '<td class=select>Select</td>' )
-	});
-	// update main table when selection is made
-	$( 'table#groupSelect td.select' ).click( function(){
-		// console.log( 'index', $( this ).parent().index());
-		$.each( given[$( this ).parent().index()], function( key, value ){
-			$( 'table#' + table + ' tr.' + source + 'Select td' ).eq( key ).text( value );
+		// update main table when selection is made
+		$( 'table#groupSelect td.select' ).click( function(){
+			// console.log( 'index', $( this ).parent().index());
+			$.each( given[$( this ).parent().index()], function( key, value ){
+				$( 'table#' + table + ' tr.' + source + 'Select td' ).eq( key ).text( value );
+			});
+			$( 'body div.offClick, body div#groupSelectModal' ).remove();
 		});
-		$( 'body div.offClick, body div#groupSelectModal' ).remove();
-	});
-	// center the modal on the screen
-	$( 'div#groupSelectModal' ).css({
-		left : ( $( window ).width()  - $( 'div#groupSelectModal' ).outerWidth( true )) / 2,
-		top  : ( $( window ).height() - $( 'div#groupSelectModal' ).outerHeight( true )) / 2
-	});
-	//enable the scrolling
-	$( 'div.jScrollPane' ).jScrollPane({ verticalDragMinHeight: 27, verticalDragMaxHeight: 27, verticalGutter: 10 });
-	
+		// center the modal on the screen
+		$( 'div#groupSelectModal' ).css({
+			left : ( $( window ).width()  - $( 'div#groupSelectModal' ).outerWidth( true )) / 2,
+			top  : ( $( window ).height() - $( 'div#groupSelectModal' ).outerHeight( true )) / 2
+		});
+		//enable the scrolling
+		$( 'div.jScrollPane' ).jScrollPane({ verticalDragMinHeight: 27, verticalDragMaxHeight: 27, verticalGutter: 10 });
+	} else {
+		// console.log( 'the modal is already being displayed' );
+		setTimeout( function(){ options.utill.givenSelect( source,table, given ); }, 1000 );
+	}
 }
 options.utill.groupSelect = function( table, column ){
 	// console.log( 'table', table );
@@ -163,6 +166,7 @@ options.utill.groupSelect = function( table, column ){
 		$( 'div#groupSelectModal' ).append( '<h1>Select ' + table + ' ' + ( options[table + 'Groups'].length + 1 ) + '</h1>' );
 		$( 'div#groupSelectModal' ).append( '<div class=jScrollPane></div>' );
 		$( 'div.jScrollPane' ).append( '<table id=groupSelect class=' + table + ' border=1 cellspacing=0 cellpadding=1></table>' );
+		$( 'table#groupSelect.' + table ).css({ width : $( 'table#' + table ).outerWidth() });
 		// console.log( "$( 'table#'" + table + "' thead' )", $( 'table#' + table + ' thead' ));
 		$( 'table#' + table + ' thead' ).clone().appendTo( 'table#groupSelect' );
 		// console.log( 'currentGroup', currentGroup );
@@ -217,7 +221,7 @@ options.utill.groupSelect = function( table, column ){
 		// console.log( "options[column + 'Groups']", options[column + 'Groups'] );
 		if( options[table + 'Groups'] && options[table + 'Groups'].length > 0 ) {
 			// console.log( 'the modal is already being displayed' );
-			setTimeout( function(){ options.utill.groupSelect( table, column )}, 1000 );
+			setTimeout( function(){ options.utill.groupSelect( table, column ); }, 1000 );
 		}
 	}
 }

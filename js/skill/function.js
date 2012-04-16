@@ -17,15 +17,13 @@ options.skill.set = function( column ){
 	// console.log( "$( options[column + 'Selected'].skill )", $( options[column + 'Selected'].skill ));
 	$( options[column + 'Selected'].skill ).each( function(){
 		$.each( this, function( action, actionData ){
-			var skillCount = 0;
-			if( typeof( options.skillGroups ) == 'undefined' ) options.skillGroups = new Array();
-			if( options.skillGroups[groupCount] && options.skillGroups[groupCount].length > 0 ) groupCount++;
-			options.skillGroups[groupCount] = new Array();
-			// console.log( 'action', action );
-			// console.log( 'actionData', actionData );
+			console.log( 'action', action );
+			console.log( 'actionData', actionData );
 			switch( action ){
 				case "specfic":
 					var cleanName = this.replace( /[\s()\&]/g, '' );
+					console.log( 'cleanName', cleanName );
+					console.log( 'input', $( '.' + cleanName + '.' + column + ' > input' ))
 					$( '.' + cleanName + '.' + column + ' > input' ).prop( "checked", true );
 					break;
 				case "linked":
@@ -54,6 +52,10 @@ options.skill.set = function( column ){
 					});
 					break;
 				case "choice":
+					var skillCount = 0;
+					if( typeof( options.skillGroups ) == 'undefined' ) options.skillGroups = new Array();
+					if( options.skillGroups[groupCount] && options.skillGroups[groupCount].length > 0 ) groupCount++;
+					options.skillGroups[groupCount] = new Array();
 					if( typeof( actionData ) == 'string' && actionData == 'any' ){
 						options.skillGroups[groupCount] = options.skill.data;
 					}
@@ -89,7 +91,7 @@ options.skill.set = function( column ){
 			}
 		});
 	});
-	// console.log( 'options.skillGroups', options.skillGroups )
+	console.log( 'options.skillGroups', options.skillGroups )
 	if( options.skillGroups && options.skillGroups.length > 0 ){
 		options.utill.groupSelect( 'skill', column );
 	}

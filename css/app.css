@@ -53,10 +53,10 @@ table#note{
 table#attribute, table#derived{
 	width: 50%;
 }
-table#language{
+table#background, table#language{
 	width: 25%;
 }
-table#attribute, table#derived, table#skills, table#language, table#note{
+table#attribute, table#derived, table#skills, table#background, table#language, table#note{
 	float: left;
 }
 tr.numbers{
@@ -76,7 +76,6 @@ tr.derived{
 }
 table#skill, table#groupSelect.skill{
 	font-size: .625em;
-	height: 1.6667em;
 	line-height: 1.25em;
 	text-align: center;
 	text-transform: capitalize;
