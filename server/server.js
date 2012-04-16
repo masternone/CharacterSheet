@@ -2,7 +2,7 @@ var http = require( "http" );
 var url = require( "url" );
 
 function start( route, handle ){
-	function onRequest( request, response ){
+	var onRequest = function( request, response ){
 		var postData = "";
 		var pathname = url.parse( request.url ).pathname;
 		// console.log( "Request for " + pathname + " received." );
@@ -14,9 +14,9 @@ function start( route, handle ){
 		request.addListener( "end", function(){
 			route( handle, pathname, response, postData );
 		});
-	}
-	port = process.argv.length >= 3 ? process.argv[2] : 8888
-	http.createServer(onRequest).listen( port );
+	},
+	    port = typeof( process.env.C9_PORT ) != 'undefined' ? process.env.C9_PORT : ( process.argv.length >= 3 ? process.argv[2] : 8888 );
+	http.createServer(onRequest).listen( port, '0.0.0.0' );
 	console.log( 'Server has started. http://localhost:' + port );
 }
 
