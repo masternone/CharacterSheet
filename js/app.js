@@ -66,10 +66,16 @@ $(document).ready(function() {
 			if( options[source] && options[source].data ){
 				$( options[source].data ).each( function(){
 					if( this.name == selected ){
-						 // console.log( 'before calling set function', this );
+						// console.log( 'before calling set function', this );
+						if( this.requirement ){
+							console.log( 'requirement must be solved first' );
+							console.log( this.requirement );
+						}
 						options[source + 'Selected'] = this;
 						$.each( this, function( key, value ){
 							switch( key ){
+								case 'requirement':
+									// do nothing requirement but be solved before this point
 								case 'name':
 									//do nothing this value is used for display 
 									break;
@@ -99,6 +105,14 @@ $(document).ready(function() {
 									// Talents
 									// TODO:add talent selecting code here
 									break;
+								// religion these items are are only for requirements
+								case 'pantheon':
+								case 'portfolio':
+									//do nothing
+								case 'weapon':
+								case 'armor':
+									// If source is religion do nothing
+									if( source == 'religion' ) break;
 								default:
 									console.log( 'selection key not implemented ' + source + '.' + key );
 							}
