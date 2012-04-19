@@ -1,12 +1,24 @@
-The Arcanis Character Sheet is a Node.js project. Using Node.js allows for easier set up and you do not need to follow complated instrunction for setting up a web server; as the piramary developer of this project is primarly a webdeveloper the chooice of using a web browser and JavaScript allows him to use the tools he knows.
+Arcanis: The World of Shattered Empires
+The Roleplaying Game
+by Pedro Barrenechea, Henry Lopez, and Eric Wiener
+www.paradigmconcepts.com/
+
+The current core book that this application is base can be purchased here:
+
+http://www.amazon.com/Arcanis-World-Shattered-Empires-PCI1600/dp/193137449X/ref=sr_1_1?ie=UTF8&qid=1334840678&sr=8-1
+
+The Arcanis Character Sheet is a Node.js project.
+The goal for using Node.js to allow for easier set up, but setting up a persistant store that does not require the storing of data in the code repositortity so I can take advantage of free hosting is not that simple.
 
 To install Node.js follow the instrunction on http://nodejs.org/
 
-To install the dependencies which there is one. For basic installation use npm ( node's package manager )
+To install the dependencies:
 
 npm install
 
-this will read all the dependencies from package.JSON and install them.
+The presistant store I have chosen is Redis.
+
+To install Redis follow the instrunctions on http://redis.io/topics/quickstart
 
 to start the server
 
@@ -19,6 +31,12 @@ http://localhost:8888
 to send coments please email Edward Grant at themasternone@gmail.com with the subject "Character Sheet"
 
 TODO:
+Create documentation on how to create the data.
+Update the location the data comes form to be a Redis persistant store.
+	create a mechinism for importing large amounts of data
+	the client side code will continue to use JSON need to be able to pull data in a similar format
+		This may lead to pulling less data on inital page load.
+Move the saving and loading code to each table js so each table knows how to save its data and load it back.
 Break up app.js so each segment has its own file and try to refactor to make the code more reuseable.
 Loading from a file
 Language
@@ -30,6 +48,8 @@ Selecting of Talents
 		Advanced Martial Techniques
 Selecting Equipment
 	Calculating bulk
+04/19/2012:
+	Updated the documentation to represent my reasurch into how to host on Heroku for Free. This required the inclusion of a Persistant Store. Heroku does not allow for the use of the file system as a persistant store and the Data I do not want to put into the code repository. This is why I am adding Redis to the project.
 04/11/2012:
 	version 0.2.2
 	More refactoring the modal for selecting attributes and skills from race use the same function to display.
@@ -51,3 +71,5 @@ Selecting Equipment
 		All the currently supported items are serialized and saved to a file. As new items are added they will have to provide methods on how to save the data selected with them.
 	Loading from a file
 		The file io is complet but there is no processing of the file.
+
+Creating the Data
