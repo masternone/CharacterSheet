@@ -1,22 +1,23 @@
-var dataLocations = ["archetype","attribute","derived","race","religion","nation","skill","background"],
-	options = {};
+var options = {
+	dataLocations : ["archetype","attribute","derived","race","religion","nation","skill","background"]
+};
 
 $(document).ready(function() {
 	head.ready( 'selectTable', function(){ options.selection.table(); });
 	//Pull and initalize data
 	$.when(
-		options.utill.dataGet( dataLocations[0] ),
-		options.utill.dataGet( dataLocations[1] ),
-		options.utill.dataGet( dataLocations[2] ),
-		options.utill.dataGet( dataLocations[3] ),
-		options.utill.dataGet( dataLocations[4] ),
-		options.utill.dataGet( dataLocations[5] ),
-		options.utill.dataGet( dataLocations[6] ),
-		options.utill.dataGet( dataLocations[7] )
+		options.utill.dataGet( options.dataLocations[0] ),
+		options.utill.dataGet( options.dataLocations[1] ),
+		options.utill.dataGet( options.dataLocations[2] ),
+		options.utill.dataGet( options.dataLocations[3] ),
+		options.utill.dataGet( options.dataLocations[4] ),
+		options.utill.dataGet( options.dataLocations[5] ),
+		options.utill.dataGet( options.dataLocations[6] ),
+		options.utill.dataGet( options.dataLocations[7] )
 	).then( 
 		function( data ){
 			// console.log( 'options', options );
-			$( dataLocations ).each( function(){
+			$( options.dataLocations ).each( function(){
 				//initalize all the selects
 				options.utill.selectBuild( this );
 				if( this == 'attribute' ||
@@ -31,7 +32,7 @@ $(document).ready(function() {
 			});
 			// if a data location has an additional table build it
 			head.ready( function(){
-				$( dataLocations ).each( function(){
+				$( options.dataLocations ).each( function(){
 					if( options && options[this] && options[this].table && typeof( options[this].table ) == 'function' ){
 						options[this].table();
 					}
@@ -57,6 +58,7 @@ $(document).ready(function() {
 	//initalize listner for selects
 	$( 'table#selection td > select' ).change( function(){
 		var $this = $( this ),
+			requirement = true,
 			source = $this.parent().prop( 'class' ),
 			selected = $this.find( ':selected' ).val();
 		if( selected == "error" ){
@@ -64,59 +66,72 @@ $(document).ready(function() {
 		} else {
 			// console.log( 'source in change listener', source );
 			if( options[source] && options[source].data ){
-				$( options[source].data ).each( function(){
-					if( this.name == selected ){
+				$.each( options[source].data, function( key, value ){
+					if( value.name == selected ){
 						// console.log( 'before calling set function', this );
-						if( this.requirement ){
+						if( value.requirement ){
 							console.log( 'requirement must be solved first' );
-							console.log( this.requirement );
+							console.log( value.requirement );
+							requirement = false;
+							$.each( value.requirement, function( key, value ){
+								$.each( value, function( key, value ){
+									switch( key ){
+										default:
+											console.log( 'Requirement key not implemented ' + source + '.' + key );
+									}
+								});
+							});
 						}
 						options[source + 'Selected'] = this;
-						$.each( this, function( key, value ){
-							switch( key ){
-								case 'requirement':
-									// do nothing requirement but be solved before this point
-								case 'name':
-									//do nothing this value is used for display 
-									break;
-								case 'region':
-									// the nation has to selects and its data is linked to what is selected in the nation select
-									options.utill.linkedSelectBuild( 'nation', 'region' );
-									break;
-								case 'military':
-									options.background.military( source );
-									break;
-								case 'attribute':
-									options.attribute.set( source );
-									break;
-								case 'skill':
-									options.skill.set( source );
-									break;
-								case 'language':
-									// console.log( 'source', source );
-									// console.log( "options[source + 'Selected']", options[source + 'Selected'] );
-									// console.log( "options[source + 'Selected'].language", options[source + 'Selected']['language'] );
-									options.language.set( source );
-									break;
-								case 'note':
-									options.note.set( source );
-									break;
-								case 'talent':
-									// Talents
-									// TODO:add talent selecting code here
-									break;
-								// religion these items are are only for requirements
-								case 'pantheon':
-								case 'portfolio':
-									//do nothing
-								case 'weapon':
-								case 'armor':
-									// If source is religion do nothing
-									if( source == 'religion' ) break;
-								default:
-									console.log( 'selection key not implemented ' + source + '.' + key );
-							}
-						});
+						if( requirement ){
+							$.each( this, function( key, value ){
+								switch( key ){
+									case 'requirement':
+										// do nothing requirement must be solved before this point
+									case 'name':
+										//do nothing this value is used for display 
+										break;
+									case 'region':
+										// the nation has to selects and its data is linked to what is selected in the nation select
+										options.utill.linkedSelectBuild( 'nation', 'region' );
+										break;
+									case 'military':
+										options.background.military( source );
+										break;
+									case 'attribute':
+										options.attribute.set( source );
+										break;
+									case 'skill':
+										options.skill.set( source );
+										break;
+									case 'language':
+										// console.log( 'source', source );
+										// console.log( "options[source + 'Selected']", options[source + 'Selected'] );
+										// console.log( "options[source + 'Selected'].language", options[source + 'Selected']['language'] );
+										options.language.set( source );
+										break;
+									case 'note':
+										options.note.set( source );
+										break;
+									case 'talent':
+										// Talents
+										// TODO:add talent selecting code here
+										break;
+									// religion these items are are only for requirements
+									case 'pantheon':
+									case 'portfolio':
+										//do nothing
+									case 'weapon':
+									case 'armor':
+										// If source is religion do nothing
+										if( source == 'religion' ) break;
+									default:
+										console.log( 'selection key not implemented ' + source + '.' + key );
+								}
+							});
+						} else {
+							// TODO: do something because selected item's requirements are not meet.
+						}
 					}
 				});
 			}
@@ -130,47 +145,11 @@ $(document).ready(function() {
 	$( "td.save > input[name='save']" ).click( function(){
 		//grab data from selection table
 		var toSave = {
-			selection : {
-				name : $( 'table#selection td.name input' ).val()
-			}
-		};
-		for( i in dataLocations ){
-			toSave.selection[dataLocations[i]] = $( 'table#selection td.' + dataLocations[i] + ' option:selected').val();
+			selection : options.selection.get(),
+			attribute : options.skill.get(),
+			skill     : options.skill.get()
 		}
-		//grab data from attribute table
-		for( var i in options.attribute.name ){
-			var cleanName = options.attribute.name[i][1];
-			if( typeof( toSave.attribute ) != 'object' ) toSave.attribute = {};
-			toSave.attribute[cleanName] = {
-				score      : $( 'td.' + cleanName + '.score      input' ).val(),
-				race       : $( 'td.' + cleanName + '.race       input' ).prop( 'checked' ),
-				background : $( 'td.' + cleanName + '.background input' ).prop( 'checked' ),
-			}
-		};
-		//grab data from skill table
-		for( var i in options.skill ){
-			var cleanName = options.skill[i].name.replace( /[\s()\&]/g, '' );
-			if( typeof( toSave.skill ) != 'object' ) toSave.skill = {};
-			toSave.skill[cleanName] = {
-				archetype   : { 
-					value   : $( 'td.' + cleanName + '.archetype  input' ).val(),
-					checked : $( 'td.' + cleanName + '.archetype  input' ).prop( 'checked' )
-				},
-				race        : {
-					value   : $( 'td.' + cleanName + '.race       input' ).val(),
-					checked : $( 'td.' + cleanName + '.race       input' ).prop( 'checked' )
-				},
-				region      : {
-					value   : $( 'td.' + cleanName + '.region     input' ).val(),
-					checked : $( 'td.' + cleanName + '.region     input' ).prop( 'checked' )
-				},
-				background  : {
-					value   : $( 'td.' + cleanName + '.background input' ).val(),
-					checked : $( 'td.' + cleanName + '.background input' ).prop( 'checked' )
-				},
-				spend       : $( 'td.' + cleanName + '.spend      input' ).val(),
-			};
-		}
+
 		//console.log( JSON.stringify( toSave ));
 		//$( 'body' ).empty().text( JSON.stringify( toSave ));
 		function characterSave( characterJSON ){

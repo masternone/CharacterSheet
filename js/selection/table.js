@@ -40,3 +40,13 @@ options.selection.table = function(){
 		);
 	}
 }
+
+options.selection.get = function(){
+	var selection = {
+		name : $( 'table#selection td.name input' ).val()
+	};
+	$.each( options.dataLocations, function( key, value ){
+		selection[value] = $( 'table#selection td.' + value + ' option:selected').val();
+	});
+	return selection;
+}

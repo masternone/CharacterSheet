@@ -54,3 +54,31 @@ options.skill.table = function(){
 		);
 	});
 }
+
+options.skill.get = function(){
+	var skill = {};
+	$.each( options.skill.data, function( key, value ){
+		var cleanName = options.utill.cleanName( value.name );
+		skill[cleanName] = {
+			archetype   : { 
+				value   : $( 'td.' + cleanName + '.archetype  input' ).val(),
+				checked : $( 'td.' + cleanName + '.archetype  input' ).prop( 'checked' )
+			},
+			race        : {
+				value   : $( 'td.' + cleanName + '.race       input' ).val(),
+				checked : $( 'td.' + cleanName + '.race       input' ).prop( 'checked' )
+			},
+			nation      : {
+				value   : $( 'td.' + cleanName + '.nation     input' ).val(),
+				checked : $( 'td.' + cleanName + '.nation     input' ).prop( 'checked' )
+			},
+			background  : {
+				value   : $( 'td.' + cleanName + '.background input' ).val(),
+				checked : $( 'td.' + cleanName + '.background input' ).prop( 'checked' )
+			},
+			spend       : $( 'td.' + cleanName + '.spend      input' ).val(),
+			other       : $( 'td.' + cleanName + '.other' ).text() * 1
+		};
+	});
+	return skill;
+}

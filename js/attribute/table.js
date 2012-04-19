@@ -53,3 +53,16 @@ options.attribute.table = function(){
 		"</tr>"
 	);
 }
+
+options.attribute.get = function(){
+	var attribute = {};
+	$.each( options.attribute.data.name, function( key, value ){
+		var cleanName = options.utill.cleanName( value[1] );
+		attribute[cleanName] = {
+			score      : $( 'td.' + cleanName + '.score      input' ).val(),
+			race       : $( 'td.' + cleanName + '.race       input' ).prop( 'checked' ),
+			background : $( 'td.' + cleanName + '.background input' ).prop( 'checked' ),
+		}
+	});
+	return attribute;
+}

@@ -1,5 +1,8 @@
 options = typeof( options ) == 'object' ? options : {};
 options.utill = typeof( options.utill ) == 'object' ? options.utill : {};
+options.utill.cleanName = function( name ){
+	return name.replace( /[\s()\&]/g, '' );
+}
 options.utill.armorCustom = function( source ){
 	var ret = 0,
 		count = 0,
