@@ -14,16 +14,22 @@ function index( response, postData ){
 	staticFile.out( response, 'index.html' );
 }
 
-function _save( saveLocation, fileName, response, postData ){
+function _save( saveLocation, fileName, response, postData, postDataJSON ){
 	path.exists( saveLocation, function( exists ){
 		if( !exists ){
 			fs.mkdir( saveLocation );
 		}
 
 		var stream = fs.createWriteStream( saveLocation + '/' + fileName + '.JSON' );
-		stream.once( 'open', function( fd ){
-			stream.write( postData );
+		stream.once( 'open', function(){
+			stream.end( postData );
+		});
 
+		stream.on( 'error', function( error ){
+			console.log( 'file error: ' + error );
+		});
+
+		stream.on( 'close', function(){
 			response.writeHead( 200, { "Content-Type" : "text/plain" });
 			response.write( JSON.stringify({ success : postDataJSON.selection.name + ' Saved!' }));
 			response.end();
@@ -31,7 +37,7 @@ function _save( saveLocation, fileName, response, postData ){
 	});
 }
 
-function _load( loadLocation, fileName, response, postData ){
+function _load( loadLocation, fileName, response, postData, postDataJSON ){
 	path.exists( loadLocation, function( exists ){
 		if( !exists ){
 			errorHandler.error500( response, JSON.stringify({ error : 'No saved characters' }));
@@ -86,10 +92,10 @@ function _characterIO( type, response, postData ){
 
 	switch( type ){
 		case 'save':
-			_save( saveLocation, fileName, response, postData );
+			_save( saveLocation, fileName, response, postData, postDataJSON );
 			break;
 		case 'load':
-			_load( saveLocation, fileName, response, postData );
+			_load( saveLocation, fileName, response, postData, postDataJSON );
 			break;
 		default:
 			console.log( 'Missing or unknown type definition' );
