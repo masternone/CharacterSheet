@@ -1,7 +1,7 @@
 {
 	"name": "Arcans-Character-Sheet",
 	"preferGlobal": "false",
-	"version": "0.2.1",
+	"version": "0.2.4",
 	"author": "Edward Grant <themasternone@gmail.com>",
 	"description": "A way to quickly and completly build and maintain a character for the Arcanis Role Playing Game",
 	"contributors": [
@@ -19,7 +19,8 @@
 	],
 	"dependencies" : {
 		"mime"      : "1.2.x",
-        "http-auth" : "1.2.x"
+        "http-auth" : "1.2.x",
+		"redis"     : "0.7.x"
 	},
 	"bundleDependencies": [
 	],

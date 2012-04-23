@@ -77,12 +77,29 @@ options.utill.minimum = function( source ){
 	return ret;
 }
 
+//searlize from and post it
+options.utill.dataSet = function( type, $form ){
+	$form.submit( function( e ){
+		e.preventDefault();
+		var payload = $form.find( '#newData' ).val();
+		$.ajax({
+			url      : '/data/' + type + '/set',
+			dataType : 'json',
+			type     : 'POST',
+			data     : payload
+		}).done( function( data ){
+			$( 'body' ).prepend( data.success );
+		});
+		return false;
+	});
+}
+
 //pull all data files with an AJAX call
 options.utill.dataGet = function( type ){
 	return $.ajax({
-		url: 'data/' + type +'.JSON',
-		dataType: 'json',
-		async : false
+		url      : '/data/' + type,
+		dataType : 'json',
+		async    : true
 	}).done( function( data ){
 		options[type] = typeof( options[type] ) == 'object' ? options[type] : {};
 		options[type].data = data;

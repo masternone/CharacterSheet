@@ -38,7 +38,7 @@ Update the location the data comes form to be a Redis persistant store.
 		This may lead to pulling less data on inital page load.
 Move the saving and loading code to each table js so each table knows how to save its data and load it back.
 Break up app.js so each segment has its own file and try to refactor to make the code more reuseable.
-Loading from a file
+Saving to a local file and loading from a local file that contians json object
 Language
 Selecting of Talents
 	Spells
@@ -48,6 +48,10 @@ Selecting of Talents
 		Advanced Martial Techniques
 Selecting Equipment
 	Calculating bulk
+
+04/22/2012:
+	version 0.2.4
+	The code to get and set the data in the Redis Persistant Store is crude but working( If you are reading this and would like to improve this please fork )
 04/19/2012:
 	Updated the documentation to represent my reasurch into how to host on Heroku for Free. This required the inclusion of a Persistant Store. Heroku does not allow for the use of the file system as a persistant store and the Data I do not want to put into the code repository. This is why I am adding Redis to the project.
 04/11/2012:

@@ -1,17 +1,15 @@
 var querystring  = require( 'querystring' ),
 	path         = require( "path" ),
 	fs           = require( "fs" ),
+	util         = require( 'util' ),
 	errorHandler = require( './errorHandler' ),
-	staticFile   = require( './staticFile' );
+	staticFile   = require( './staticFile' ),
+	JSONRedis    = require( './lib/JSONRedis'),
+	dataTemplate = require( '../template/data' );
 
 function dft( response, pathName, postData ){
 	// console.log( "Request handler dft on " + pathName + " was called.");
 	staticFile.out( response, pathName );
-}
-
-function index( response, postData ){
-	// console.log( "Request handler 'index' was called." );
-	staticFile.out( response, 'index.html' );
 }
 
 function _save( saveLocation, fileName, response, postData, postDataJSON ){
@@ -30,7 +28,7 @@ function _save( saveLocation, fileName, response, postData, postDataJSON ){
 		});
 
 		stream.on( 'close', function(){
-			response.writeHead( 200, { "Content-Type" : "text/plain" });
+			response.writeHead( 200, { "Content-Type" : "application/json" });
 			response.write( JSON.stringify({ success : postDataJSON.selection.name + ' Saved!' }));
 			response.end();
 		});
@@ -62,7 +60,7 @@ function _load( loadLocation, fileName, response, postData, postDataJSON ){
 
 				stream.on( 'end', function(){
 					// console.log( 'arguments in end', arguments );
-					response.writeHead( 200, { "Content-Type" : "text/plain" });
+					response.writeHead( 200, { "Content-Type" : "application/json" });
 					response.write( fileContent );
 					response.end();
 				});
@@ -110,7 +108,64 @@ function load( response, postData ){
 	_characterIO( 'load', response, postData );
 }
 
-exports.dft   = dft;
-exports.index = index;
-exports.save  = save;
-exports.load  = load;
+function newData( response, postData, init ){
+	// console.log( 'newData arguments', arguments );
+	JSONRedis.toJSON( init, init, 0, function( error, result ){
+		// console.log( 'result', result );
+		if( !result ){
+			result = '';
+		}
+
+		response.writeHead( 200, { "Content-Type" : "text/html" });
+		response.write( dataTemplate.html.replace( /<< init >>/g, init ).replace( /<< data >>/g, result ));
+		response.end();
+	});
+}
+
+function setData( response, postData, init ){
+	// console.log( 'data arguments', arguments );
+	console.log( 'postData', postData );
+	console.log( 'urldecode', decodeURIComponent( postData ));
+	console.log( 'JSONParsed', JSON.parse( decodeURIComponent( postData )));
+	JSONRedis.toRedis( init, postData, function( error, success ){
+		if( error ){
+			errorHandler.error500( response, JSON.stringify({ error : 'Failed to store data for ' + init }));
+			return
+		}
+		response.writeHead( 200, { "Content-Type" : "application/json" });
+		response.write( JSON.stringify({ sucess : 'Data for ' + init + ' stored!' }));
+		response.end();
+	});
+}
+
+function getData( response, postData, init ){
+	// console.log( 'data arguments', arguments );
+	JSONRedis.toJSON( init, init, 0, function( error, result ){
+		// console.log( 'result', result );
+		if( error ){
+			errorHandler.error500( response, JSON.stringify({ error : 'Failed to retrive data for ' + init }));
+			return
+		}
+		if( !result ){
+			console.log( 'No data for %s in the Data Store getting data for %s from %s', init, init, '/data/' + init + '.JSON' );
+			dft( response, '/data/' + init + '.JSON', postData );
+			return;
+		}
+		response.writeHead( 200, { "Content-Type" : "application/json" });
+		response.write( result );
+		response.end();
+	});
+}
+
+function index( response, postData ){
+	// console.log( "Request handler 'index' was called." );
+	staticFile.out( response, 'index.html' );
+}
+
+exports.dft     = dft;
+exports.save    = save;
+exports.load    = load;
+exports.getData = getData;
+exports.setData = setData;
+exports.newData = newData;
+exports.index   = index;
