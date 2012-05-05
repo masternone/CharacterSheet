@@ -59,31 +59,42 @@ $(document).ready(function() {
 	$( 'table#selection td > select' ).change( function(){
 		var $this = $( this ),
 			requirement = true,
-			source = $this.parent().prop( 'class' ),
+			source = $this.parent().prop( 'class' ).replace( ' error', '' ),
 			selected = $this.find( ':selected' ).val();
 		if( selected == "error" ){
 			options[source + 'Selected'] = "error";
 		} else {
-			// console.log( 'source in change listener', source );
+			console.log( 'source in change listener', source );
 			if( options[source] && options[source].data ){
 				$.each( options[source].data, function( key, value ){
 					if( value.name == selected ){
 						// console.log( 'before calling set function', this );
 						if( value.requirement ){
-							console.log( 'requirement must be solved first' );
-							console.log( value.requirement );
-							requirement = false;
+							// console.log( 'requirement must be solved first' );
+							// console.log( value.requirement );
+							var requirementHold = [];
 							$.each( value.requirement, function( key, value ){
 								$.each( value, function( key, value ){
 									switch( key ){
+										case 'race':
+											requirementHold.push( options.race.requirement( value ));
+											break;
+										case 'nation':
+											requirementHold.push( options.nation.requirement( value ));
+											break;
 										default:
 											console.log( 'Requirement key not implemented ' + source + '.' + key );
 									}
 								});
 							});
+							console.log( 'requirementHold', requirementHold );
+							while( requirementHold.length > 0 ){
+								requirement = requirement && requirementHold.pop();
+							}
 						}
-						options[source + 'Selected'] = this;
 						if( requirement ){
+							$( '#selection .' + source ).removeClass( 'error' );
+							options[source + 'Selected'] = this;
 							$.each( this, function( key, value ){
 								switch( key ){
 									case 'requirement':
@@ -131,6 +142,7 @@ $(document).ready(function() {
 							});
 						} else {
 							// TODO: do something because selected item's requirements are not meet.
+							$( '#selection .' + source ).addClass( 'error' );
 						}
 					}
 				});

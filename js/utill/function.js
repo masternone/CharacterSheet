@@ -183,7 +183,7 @@ options.utill.groupSelect = function( table, column ){
 		$( 'body' ).append( '<div class=offClick></div>' );
 		$( 'body' ).append( '<div id=groupSelectModal></div>' );
 		//Title with countdown
-		$( 'div#groupSelectModal' ).append( '<h1>Select ' + table + ' ' + ( options[table + 'Groups'].length + 1 ) + '</h1>' );
+		$( 'div#groupSelectModal' ).append( '<h1>Select ' + table + ' ' + ( typeof( options[table + 'Groups'][0] ) == 'string' ? 1 : options[table + 'Groups'].length + 1 ) + '</h1>' );
 		$( 'div#groupSelectModal' ).append( '<div class=jScrollPane></div>' );
 		$( 'div.jScrollPane' ).append( '<table id=groupSelect class=' + table + ' border=1 cellspacing=0 cellpadding=1></table>' );
 		$( 'table#groupSelect.' + table ).css({ width : $( 'table#' + table ).outerWidth() });

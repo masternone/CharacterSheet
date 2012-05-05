@@ -15,7 +15,8 @@ h1{
 }
 
 .error{
-	border-color: #f00;
+	background: #F00;
+	border-color: #F00;
 }
 
 .odd{
